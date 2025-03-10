@@ -1,4 +1,7 @@
-<!DOCTYPE html>
+@extends('layouts.adminlte')
+
+@section('container')
+
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -71,3 +74,5 @@
     </script>
 </body>
 </html>
+
+@endsection

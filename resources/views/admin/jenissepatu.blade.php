@@ -37,7 +37,6 @@
                   <thead>
                   <tr>
                     <th>Nomor</th>
-                    <th>ID Jenis Sepatu</th>
                     <th>Jenis Sepatu</th>
                     <th>Aksi</th>
                   </tr>
@@ -45,7 +44,6 @@
                   <tbody>
                   <tr>
                     <td>1</td>
-                    <td>001</td>
                     <td>Suede</td>
                     <td>
                       <button class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Edit</button>
@@ -54,7 +52,6 @@
                   </tr>
                   <tr>
                     <td>2</td>
-                    <td>002</td>
                     <td>Canvas</td>
                     <td>
                       <button class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Edit</button>
@@ -63,7 +60,6 @@
                   </tr>
                   <tr>
                     <td>3</td>
-                    <td>003</td>
                     <td>Leather</td>
                     <td>
                       <button class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Edit</button>
@@ -72,7 +68,6 @@
                   </tr>
                   <tr>
                     <td>4</td>
-                    <td>004</td>
                     <td>Nubuck</td>
                     <td>
                       <button class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Edit</button>
@@ -81,7 +76,6 @@
                   </tr>
                   <tr>
                     <td>5</td>
-                    <td>005</td>
                     <td>Mesh</td>
                     <td>
                       <button class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Edit</button>
@@ -128,8 +122,6 @@
       <div class="modal-body">
         <form>
           <div class="form-group">
-            <label for="paymentMethod">Nomor ID</label>
-            <input type="text" class="form-control" id="paymentMethod" placeholder="Masukkan nomor id">
             <label for="paymentMethod">Jenis Sepatu</label>
             <input type="text" class="form-control" id="paymentMethod" placeholder="Masukkan jenis sepatu">
           </div>

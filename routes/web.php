@@ -39,6 +39,7 @@ use Illuminate\Support\Facades\Route;
 
 // KHUSUS USER ATAU CUSTOMER
 Route::get('/', [HomeController::class, 'index'])->name('welcome');
+
 Route::get('/layanan', [LayananController::class, 'index'])->name('user.layanan');
 Route::get('/order', [OrderController::class, 'index'])->name('user.order');
 Route::post('/order/store', [OrderController::class, 'store'])->name('user.order.store');
@@ -72,7 +73,13 @@ Route::middleware('auth')->group(function () {
 Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 Route::get('/admin/transaksi', [TransaksiController::class, 'index'])->name('admin.transaksi');
 Route::get('/admin/datapelanggan', [DataPelangganController::class, 'index'])->name('admin.datapelanggan');
+
+// Layanan
 Route::get('/admin/datapaket', [DataPaketController::class, 'index'])->name('admin.datapaket');
+Route::post('/admin/datapaket', [DataPaketController::class, 'store'])->name('admin.datapaket.store');
+Route::post('/admin/datapaket/update/{id}', [DataPaketController::class, 'update'])->name('admin.datapaket.update');
+Route::delete('admin/datapaket/{id}', [DataPaketController::class, 'destroy'])->name('admin.datapaket.destroy');
+
 Route::get('/admin/jenissepatu', [JenisSepatuController::class, 'index'])->name('admin.jenissepatu');
 Route::get('/admin/metodepembayaran', [MetodePembayaranController::class, 'index'])->name('admin.metodepembayaran');
 Route::get('/admin/datapesanan', [DataPesananController::class, 'index'])->name('admin.datapesanan');

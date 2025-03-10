@@ -57,7 +57,7 @@
         <ul class="nav nav-treeview">
             <li class="nav-item">
                 <a href="{{ route('admin.datapaket') }}" class="nav-link {{ request()->routeIs('admin.datapaket') ? 'active' : '' }}">
-                    <p>Data Paket</p>
+                    <p>Data Layanan</p>
                 </a>
             </li>
             <li class="nav-item">
