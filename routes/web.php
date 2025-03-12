@@ -41,8 +41,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('welcome');
 
 Route::get('/layanan', [LayananController::class, 'index'])->name('user.layanan');
-Route::get('/order', [OrderController::class, 'index'])->name('user.order');
-Route::post('/order/store', [OrderController::class, 'store'])->name('user.order.store');
+
+Route::get('/order', [OrderController::class, 'create'])->name('user.order');
+Route::post('/order', [OrderController::class, 'store'])->name('user.order.store');
 
 Route::get('/pesanan', [PesananController::class, 'index'])->name('user.pesanan');
 Route::get('/riwayat', [RiwayatController::class, 'index'])->name('user.riwayat');
@@ -76,13 +77,18 @@ Route::get('/admin/datapelanggan', [DataPelangganController::class, 'index'])->n
 
 // Layanan
 Route::get('/admin/datapaket', [DataPaketController::class, 'index'])->name('admin.datapaket');
-Route::post('/admin/datapaket', [DataPaketController::class, 'store'])->name('admin.datapaket.store');
-Route::post('/admin/datapaket/update/{id}', [DataPaketController::class, 'update'])->name('admin.datapaket.update');
-Route::delete('admin/datapaket/{id}', [DataPaketController::class, 'destroy'])->name('admin.datapaket.destroy');
+Route::post('/admin/datapaket/tambah', [DataPaketController::class, 'tambah'])->name('datapaket.tambah');
+Route::put('/admin/datapaket/update/{id}', [DataPaketController::class, 'update'])->name('datapaket.update');
+Route::delete('admin/datapaket/{id}', [DataPaketController::class, 'destroy'])->name('datapaket.destroy');
 
+// Jenis Sepatu
 Route::get('/admin/jenissepatu', [JenisSepatuController::class, 'index'])->name('admin.jenissepatu');
+Route::post('/admin/jenissepatu/tambah', [JenisSepatuController::class, 'tambah'])->name('jenissepatu.tambah');
+Route::put('/admin/jenissepatu/update/{id}', [JenisSepatuController::class, 'update'])->name('jenissepatu.update');
+Route::delete('admin/jenissepatu/{id}', [JenisSepatuController::class, 'destroy'])->name('jenissepatu.destroy');
+
 Route::get('/admin/metodepembayaran', [MetodePembayaranController::class, 'index'])->name('admin.metodepembayaran');
 Route::get('/admin/datapesanan', [DataPesananController::class, 'index'])->name('admin.datapesanan');
 Route::get('/admin/profiladmin', [ProfiladminController::class, 'index'])->name('admin.profiladmin');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

@@ -12,33 +12,37 @@ class DataPaketController extends Controller
 {
     public function index()
     {
-        $layanan = Layanan::all();
+        $layanan = Layanan::paginate(10);
         return view('admin.datapaket', compact('layanan'));
     }
 
-    public function store(Request $request)
+    public function tambah(Request $request)
     {
+        // Validasi data input
         $request->validate([
             'jenis_layanan' => 'required|string|max:100',
             'deskripsi' => 'required|string',
             'harga' => 'required|numeric',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $gambarPath = null;
+        $layanan = new Layanan();
+        $layanan->jenis_layanan = $request->jenis_layanan;
+        $layanan->deskripsi = $request->deskripsi;
+        $layanan->harga = $request->harga;
+
+        // Proses upload gambar jika ada
         if ($request->hasFile('gambar')) {
-            $gambarPath = $request->file('gambar')->store('gambar_layanan', 'public');
+            $file = $request->file('gambar');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/layanan'), $filename);
+            $layanan->gambar = $filename;
         }
 
-        Layanan::create([
-            'jenis_layanan' => $request->jenis_layanan,
-            'deskripsi' => $request->deskripsi,
-            'harga' => $request->harga,
-            'gambar' => $gambarPath
-        ]);
+        $layanan->save();
 
-        Alert::success('Sukses', 'Layanan berhasil ditambahkan!');
-        return redirect()->back();
+        Alert::success('Success', 'Layanan berhasil ditambahkan!', '1500');
+        return redirect()->route('admin.datapaket');
     }
 
     public function update(Request $request, $id)
@@ -46,41 +50,43 @@ class DataPaketController extends Controller
         $request->validate([
             'jenis_layanan' => 'required|string|max:100',
             'deskripsi' => 'required|string',
-            'harga' => 'required|string',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'harga' => 'required|numeric',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         $layanan = Layanan::findOrFail($id);
 
         // Update gambar jika ada file baru
         if ($request->hasFile('gambar')) {
-            if ($layanan->gambar) {
-                Storage::disk('public')->delete($layanan->gambar);
+            // Hapus gambar lama jika ada
+            $oldImagePath = public_path('uploads/layanan/' . $layanan->gambar);
+            if (File::exists($oldImagePath)) {
+                File::delete($oldImagePath);
             }
-            $gambarPath = $request->file('gambar')->store('gambar_layanan', 'public');
-            $layanan->gambar = $gambarPath;
+
+            // Simpan gambar baru
+            $file = $request->file('gambar');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/layanan'), $filename);
+            $layanan->gambar = $filename;
         }
 
+        // Update data lainnya
         $layanan->jenis_layanan = $request->jenis_layanan;
         $layanan->deskripsi = $request->deskripsi;
         $layanan->harga = $request->harga;
         $layanan->save();
 
-        Alert::success('Sukses', 'Layanan berhasil diperbarui!');
-        return redirect()->back();
+        Alert::success('Success', 'Layanan berhasil diperbarui!', '1500');
+        return redirect()->route('admin.datapaket');
     }
 
     public function destroy($id)
     {
         $layanan = Layanan::findOrFail($id);
-
-        if ($layanan->gambar) {
-            Storage::disk('public')->delete($layanan->gambar);
-        }
-
         $layanan->delete();
 
-        Alert::success('Dihapus', 'Layanan berhasil dihapus!');
-        return redirect()->back();
+        Alert::success('Success', 'Layanan berhasil dihapus!');
+        return redirect()->route('admin.datapaket');
     }
 }
