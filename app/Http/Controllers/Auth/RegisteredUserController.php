@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class RegisteredUserController extends Controller
 {
@@ -24,28 +25,31 @@ class RegisteredUserController extends Controller
     }
 
     /**
-     * Handle an incoming registration request.
-     *
-     * @throws \Illuminate\Validation\ValidationException
+     * Menangani proses registrasi.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
+        // Validasi data input
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'name' => 'required|string|max:100',
+            'username' => 'required|string|max:100|unique:users,username',
+            'email' => 'required|string|email|max:100|unique:users,email',
+            'phone' => 'required|string|max:15|unique:users,phone',
+            'alamat' => 'required|string|max:100',
+            'password' => 'required|string|min:8|confirmed',
         ]);
 
-        $user = User::create([
+        // Simpan data ke database
+        User::create([
             'name' => $request->name,
+            'username' => $request->username,
             'email' => $request->email,
+            'phone' => $request->phone,
+            'alamat' => $request->alamat,
             'password' => Hash::make($request->password),
         ]);
 
-        event(new Registered($user));
-
-        Auth::login($user);
-
-        return redirect(RouteServiceProvider::HOME);
+        // Redirect ke halaman login dengan pesan sukses
+        return redirect()->route('login')->with('success', 'Registrasi berhasil, silakan login.');
     }
 }

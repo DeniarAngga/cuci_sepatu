@@ -23,36 +23,37 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
-        $request->authenticate();
+        // Validasi data input
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
 
-        $request->session()->regenerate();
-        $user = Auth::user();
+        // Coba melakukan login
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            // Regenerasi session untuk keamanan
+            $request->session()->regenerate();
 
-        // Cek role pengguna setelah login
-        if (Auth::user()->hasRole('admin')) {
-            // Arahkan ke dashboard admin
-            return redirect()->route('admin.dashboard'); // Pastikan rute 'admin.dashboard' sudah ada di web.php
-        }  elseif ($user->hasRole('user')) {
-            return redirect('/'); // Pastikan rute ini ada di web.php
+            // Redirect ke halaman utama
+            return redirect('/')->with('success', 'Berhasil login!');
         }
 
-        // Jika pengguna bukan admin, arahkan ke halaman home user
-        return redirect()->intended(RouteServiceProvider::HOME);
+        // Jika gagal, kembali ke halaman login dengan pesan error
+        return back()->withErrors([
+            'email' => 'Email atau password salah.',
+        ])->withInput();
     }
+
+
 
     /**
      * Destroy an authenticated session.
      */
     public function destroy(Request $request): RedirectResponse
     {
-        Auth::guard('web')->logout();
-
-        $request->session()->invalidate();
-
-        $request->session()->regenerateToken();
-
-        return redirect('/');
+        Auth::logout();
+        return redirect()->route('welcome')->with('success', 'Berhasil logout!');
     }
 }

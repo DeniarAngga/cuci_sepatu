@@ -8,6 +8,9 @@ use App\Http\Controllers\Admin\JenisSepatuController;
 use App\Http\Controllers\Admin\MetodePembayaranController;
 use App\Http\Controllers\Admin\ProfiladminController;
 use App\Http\Controllers\Admin\TransaksiController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\User\Deskripsilayanan\DeepcleaningController;
 use App\Http\Controllers\User\Deskripsilayanan\FastcleaningController;
@@ -39,6 +42,17 @@ use Illuminate\Support\Facades\Route;
 
 // KHUSUS USER ATAU CUSTOMER
 Route::get('/', [HomeController::class, 'index'])->name('welcome');
+
+// User login
+Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
+Route::post('/login', [AuthenticatedSessionController::class, 'store']);
+
+// Route untuk logout
+Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+
+// User Register
+Route::get('/register', [RegisteredUserController::class, 'create'])->name('register.user');
+Route::post('/register', [RegisteredUserController::class, 'register'])->name('register.submit');
 
 Route::get('/layanan', [LayananController::class, 'index'])->name('user.layanan');
 

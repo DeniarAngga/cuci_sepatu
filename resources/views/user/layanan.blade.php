@@ -117,12 +117,31 @@
                             <p class="card-text" style="min-height: 60px;">{{ $item->deskripsi }}</p>
                             <p class="price"><strong>Rp {{ number_format($item->harga, 0, ',', '.') }}</strong></p>
                             <div class="mt-auto">
-                                <a href="{{ route('user.fastcleaning', ['id' => $item->id]) }}"
-                                    class="btn btn-primary w-100 mb-2">
+                                @php
+                                    $routeKeterangan = match ($item->jenis_layanan) {
+                                        'FAST CLEANING' => route('user.fastcleaning'),
+                                        'DEEP CLEANING' => route('user.deepcleaning'),
+                                        'UNYELLOWING' => route('user.unyellowing'),
+                                        'WHITENING' => route('user.whitening'),
+                                        'REGLUE' => route('user.reglue'),
+                                        'REPAINT BIASA' => route('user.repaintbiasa'),
+                                        'REPAINT KHUSUS' => route('user.repaintkhusus'),
+                                        'PICKUP SERVICES' => route('user.pickupservices'),
+                                        default => '#',
+                                    };
+
+                                    $routePesan =
+                                        $item->jenis_layanan == 'PICKUP SERVICES'
+                                            ? route('user.orderpickup')
+                                            : route('user.order', [
+                                                'jenis_layanan' => $item->jenis_layanan,
+                                                'source' => 'pesan',
+                                            ]);
+                                @endphp
+                                <a href="{{ $routeKeterangan }}" class="btn btn-primary w-100 mb-2">
                                     Keterangan Layanan
                                 </a>
-                                <a href="{{ route('user.order', ['jenis_layanan' => $item->jenis_layanan, 'source' => 'pesan']) }}"
-                                    class="btn btn-primary w-100">
+                                <a href="{{ $routePesan }}" class="btn btn-primary w-100">
                                     Pesan
                                 </a>
                             </div>
@@ -132,6 +151,7 @@
             @endforeach
         </div>
     </div>
+
 
     @include('layoutsuser.footer')
 
