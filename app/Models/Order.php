@@ -9,12 +9,18 @@ class Order extends Model
 {
     use HasFactory;
 
+    protected $table = 'orders';
+
     protected $fillable = [
-        'customer_name',
-        'phone_number',
-        'address',
-        'package',
-        'shoe_type',
-        'order_date'
+        'no_pesanan',
+        'user_id',
+        'nama_lengkap',
+        'nomor_handphone',
+        'alamat',
+        'jenis_layanan',
+        'jenis_sepatu',
+        'tanggal_pesan',
+        'status_pesanan',  // Tambahkan Status Pesanan
+        'status_transaksi' // Tambahkan Status Transaksi
     ];
 }

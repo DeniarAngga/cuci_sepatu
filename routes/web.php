@@ -58,6 +58,7 @@ Route::get('/layanan', [LayananController::class, 'index'])->name('user.layanan'
 
 Route::get('/order', [OrderController::class, 'create'])->name('user.order');
 Route::post('/order', [OrderController::class, 'store'])->name('user.order.store');
+Route::post('/order/{id}/bayar', [OrderController::class, 'updatePaymentStatus'])->name('order.bayar');
 
 Route::get('/pesanan', [PesananController::class, 'index'])->name('user.pesanan');
 Route::get('/riwayat', [RiwayatController::class, 'index'])->name('user.riwayat');

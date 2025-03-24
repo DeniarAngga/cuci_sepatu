@@ -9,6 +9,8 @@
     <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -69,6 +71,14 @@
         .footer a:hover {
             text-decoration: underline;
         }
+
+        .transition-opacity {
+            transition: opacity 0.5s ease-out;
+        }
+
+        .opacity-0 {
+            opacity: 0;
+        }
     </style>
 </head>
 
@@ -87,8 +97,15 @@
     </div>
 
     @if (session('success'))
-        <div class="alert alert-success">
+        <div class="alert alert-success transition-opacity duration-500 ease-out" id="success-message">
             {{ session('success') }}
+        </div>
+    @endif
+
+    <!-- Pesan Peringatan Jika Belum Login -->
+    @if (session('warning'))
+        <div class="alert alert-warning transition-opacity duration-500 ease-out" id="warning-message">
+            {{ session('warning') }}
         </div>
     @endif
 
@@ -99,21 +116,22 @@
             <!-- Nama Pemesan -->
             <div class="mb-3">
                 <label class="block font-semibold mb-1">Nama Pemesan</label>
-                <input type="text" name="customer_name" class="form-control" required>
+                <input type="text" name="nama_lengkap" class="form-control"
+                    value="{{ old('nama_lengkap', Auth::user()->name ?? '') }}" required>
             </div>
 
             <!-- Nomor Handphone -->
             <div class="mb-3">
                 <label class="block font-semibold mb-1">Nomor Handphone</label>
-                <input type="text" name="phone_number" class="form-control" required>
+                <input type="text" name="nomor_handphone" class="form-control"
+                    value="{{ old('nomor_handphone', Auth::user()->phone ?? '') }}" required>
             </div>
 
             <!-- Alamat Pemesan -->
             <div class="mb-3">
                 <label class="block font-semibold mb-1">Alamat Pemesan</label>
-                <textarea name="address" class="form-control" required></textarea>
+                <textarea name="alamat" class="form-control" required>{{ old('alamat', Auth::user()->alamat ?? '') }}</textarea>
             </div>
-
 
             <!-- Paket Layanan (Terisi Otomatis) -->
             <div class="mb-3">
@@ -125,7 +143,7 @@
             <!-- Jenis Sepatu -->
             <div class="mb-3">
                 <label class="block font-semibold mb-1">Jenis Sepatu</label>
-                <select name="shoe_type" class="form-control" required>
+                <select name="jenis_sepatu" class="form-control" required>
                     <option value="" disabled selected>Pilih jenis sepatu</option>
                     <option value="Suede">Suede</option>
                     <option value="Canvas">Canvas</option>
@@ -138,13 +156,50 @@
             <!-- Tanggal Pesan -->
             <div class="mb-4">
                 <label class="block font-semibold mb-1">Tanggal Pesan</label>
-                <input type="date" name="order_date" class="form-control" required>
+                <input type="date" name="tanggal_pesan" class="form-control" required>
             </div>
 
             <!-- Tombol Submit -->
             <button type="submit" class="btn btn-primary">Pesan</button>
         </form>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const warningMessage = document.getElementById('warning-message');
+
+            if (warningMessage) {
+                // Mulai hilangkan pesan setelah 5 detik
+                setTimeout(() => {
+                    warningMessage.classList.add('opacity-0');
+
+                    // Hapus elemen setelah transisi selesai (0.5 detik)
+                    setTimeout(() => {
+                        warningMessage.remove();
+                    }, 500);
+                }, 5000);
+            }
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const warningMessage = document.getElementById('success-message');
+
+            if (warningMessage) {
+                // Mulai hilangkan pesan setelah 5 detik
+                setTimeout(() => {
+                    warningMessage.classList.add('opacity-0');
+
+                    // Hapus elemen setelah transisi selesai (0.5 detik)
+                    setTimeout(() => {
+                        warningMessage.remove();
+                    }, 500);
+                }, 5000);
+            }
+        });
+    </script>
+
 
     <!-- Script untuk Mengisi Paket Otomatis -->
     @if ($readonly)

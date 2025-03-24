@@ -13,21 +13,28 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->string('customer_name');
-            $table->string('phone_number');
-            $table->text('address');
-            $table->string('package');
-            $table->string('shoe_type');
-            $table->date('order_date');
+            $table->string('no_pesanan')->unique();
+            $table->unsignedBigInteger('user_id');
+            $table->string('nama_lengkap');
+            $table->string('nomor_handphone');
+            $table->text('alamat');
+            $table->string('jenis_layanan');
+            $table->string('jenis_sepatu');
+            $table->date('tanggal_pesan');
+            $table->string('status_pesanan'); // Tambahkan status pesanan
+            $table->string('status_transaksi'); // Tambahkan status transaksi
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
+        Schema::table('orders', function (Blueprint $table) {
+            $table->dropForeign(['user_id']);
+        });
+
         Schema::dropIfExists('orders');
     }
 };
