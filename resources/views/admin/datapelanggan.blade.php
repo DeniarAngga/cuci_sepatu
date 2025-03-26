@@ -39,6 +39,7 @@
                     <th>Username</th>
                     <th>Email</th>
                     <th>Nomor HandPhone</th>
+                    <th>Alamat</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -47,13 +48,10 @@
                     <td>Denskie</td>
                     <td>denskie77@gmail.com</td>
                     <td>085725221479</td>
+                    <td>Brebes</td>
                   </tr>
                   <tr>
-                    <td>Grace Adelaine</td>
-                    <td>Grace</td>
-                    <td>grace1@gmail.com</td>
-                    <td>085725221111</td>
-                  </tr>
+                  
                   </tbody>
                 </table>
                 <div class="d-flex justify-content-between" style="margin-top: 20px;">

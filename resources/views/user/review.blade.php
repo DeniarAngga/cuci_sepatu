@@ -1,16 +1,16 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>
-        Denshoes Cleaning
-    </title>
-    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Denshoes Cleaning - Review</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -71,15 +71,44 @@
         .footer a:hover {
             text-decoration: underline;
         }
+
+        .transition-opacity {
+            transition: opacity 0.5s ease-out;
+        }
+
+        .opacity-0 {
+            opacity: 0;
+        }
+
+        .star-rating input:checked~label,
+        .star-rating label:hover,
+        .star-rating label:hover~label {
+            color: gold;
+        }
+
+        .star-rating {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: center;
+        }
+
+        .star-rating input {
+            display: none;
+        }
+
+        .star-rating label {
+            font-size: 25px;
+            color: #ccc;
+            cursor: pointer;
+        }
     </style>
 </head>
 
 <body>
 
-
     @include('layoutsuser.navbar')
 
-    <!-- Konten Order -->
+    <!-- Hero Section -->
     <div class="container hero-section mt-5 d-flex justify-content-center align-items-center" style="height: 50vh;">
         <div>
             <h5 class="text-center">
@@ -89,36 +118,42 @@
         </div>
     </div>
 
-    <div class="container mt-5">
-        <form>
-            @csrf
+    <!-- Form Review -->
+    <div class="container mt-5 mb-4">
+        <div class="card shadow p-4">
+            <h4 class="text-center mb-4">Bagikan pengalaman Anda!</h4>
 
-            <div class="mb-3">
-                <label class="block font-semibold mb-1">Nama</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-            </div>
-            <div class="mb-3">
-                <label>Rating</label>
-                <div class="star-rating">
-                    <input type="radio" id="star5" name="rating" value="5"><label for="star5"><i
-                            class="fas fa-star"></i></label>
-                    <input type="radio" id="star4" name="rating" value="4"><label for="star4"><i
-                            class="fas fa-star"></i></label>
-                    <input type="radio" id="star3" name="rating" value="3"><label for="star3"><i
-                            class="fas fa-star"></i></label>
-                    <input type="radio" id="star2" name="rating" value="2"><label for="star2"><i
-                            class="fas fa-star"></i></label>
-                    <input type="radio" id="star1" name="rating" value="1"><label for="star1"><i
-                            class="fas fa-star"></i></label>
+            <form action="{{ route('user.kirimreview') }}" method="POST">
+                @csrf
+
+                <!-- Nama -->
+                <div class="mb-3">
+                    <label for="nama" class="form-label">Nama</label>
+                    <input type="text" class="form-control" id="nama" name="nama" required>
                 </div>
-            </div>
 
-            <div class="mb-3">
-                <label class="block font-semibold mb-1">Review</label>
-                <textarea class="form-control" id="exampleFormControlTextarea1"></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Kirim</button>
-        </form>
+                <!-- Rating -->
+                <div class="mb-3 text-center">
+                    <label class="form-label">Rating</label>
+                    <div class="star-rating">
+                        <input type="radio" id="star5" name="rating" value="5"><label for="star5"><i class="fas fa-star"></i></label>
+                        <input type="radio" id="star4" name="rating" value="4"><label for="star4"><i class="fas fa-star"></i></label>
+                        <input type="radio" id="star3" name="rating" value="3"><label for="star3"><i class="fas fa-star"></i></label>
+                        <input type="radio" id="star2" name="rating" value="2"><label for="star2"><i class="fas fa-star"></i></label>
+                        <input type="radio" id="star1" name="rating" value="1" required><label for="star1"><i class="fas fa-star"></i></label>
+                    </div>
+                </div>
+
+                <!-- Review -->
+                <div class="mb-3">
+                    <label for="review" class="form-label">Ulasan</label>
+                    <textarea class="form-control" id="review" name="review" rows="4" required></textarea>
+                </div>
+
+                <!-- Tombol Submit -->
+                <button type="submit" class="btn btn-primary w-100">Kirim Ulasan</button>
+            </form>
+        </div>
     </div>
 
     @include('layoutsuser.footer')

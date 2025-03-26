@@ -38,7 +38,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="pages/forms/advanced.html" class="nav-link">
+                        <a href="{{ route('admin.review') }}" class="nav-link">
                             <p>Ratings dan Review</p>
                         </a>
                     </li>

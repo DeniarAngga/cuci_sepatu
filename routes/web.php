@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\DataPesananController;
 use App\Http\Controllers\Admin\JenisSepatuController;
 use App\Http\Controllers\Admin\MetodePembayaranController;
 use App\Http\Controllers\Admin\ProfiladminController;
+use App\Http\Controllers\Admin\ReviewPelangganController;
 use App\Http\Controllers\Admin\TransaksiController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\LoginController;
@@ -20,6 +21,7 @@ use App\Http\Controllers\User\Deskripsilayanan\RepaintkhususController;
 use App\Http\Controllers\User\Deskripsilayanan\UnyellowingController;
 use App\Http\Controllers\User\Deskripsilayanan\WhiteningController;
 use App\Http\Controllers\User\Deskripsilayanan\PickupServicesController;
+use App\Http\Controllers\User\EditprofilController;
 use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\LayananController;
 use App\Http\Controllers\User\OrderController;
@@ -42,6 +44,7 @@ use Illuminate\Support\Facades\Route;
 
 // KHUSUS USER ATAU CUSTOMER
 Route::get('/', [HomeController::class, 'index'])->name('welcome');
+Route::get('/profil', [EditprofilController::class, 'index'])->name('user.editprofil');
 
 // User login
 Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
@@ -62,8 +65,10 @@ Route::post('/order/{id}/bayar', [OrderController::class, 'updatePaymentStatus']
 
 Route::get('/pesanan', [PesananController::class, 'index'])->name('user.pesanan');
 Route::get('/riwayat', [RiwayatController::class, 'index'])->name('user.riwayat');
-Route::get('/review', [ReviewController::class, 'index'])->name('user.review');
 Route::get('/orderpickup', [OrderPickupController::class, 'index'])->name('user.orderpickup');
+
+Route::get('/review', [ReviewController::class, 'index'])->name('user.review');
+Route::post('/review', [ReviewController::class, 'store'])->name('user.kirimreview');
 
 // DESKRIPSI LAYANAN (user)
 Route::get('/fastcleaning', [FastcleaningController::class, 'index'])->name('user.fastcleaning');
@@ -89,6 +94,7 @@ Route::middleware('auth')->group(function () {
 Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 Route::get('/admin/transaksi', [TransaksiController::class, 'index'])->name('admin.transaksi');
 Route::get('/admin/datapelanggan', [DataPelangganController::class, 'index'])->name('admin.datapelanggan');
+Route::get('/admin/review', [ReviewPelangganController::class, 'index'])->name('admin.review');
 
 // Layanan
 Route::get('/admin/datapaket', [DataPaketController::class, 'index'])->name('admin.datapaket');

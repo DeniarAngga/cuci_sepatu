@@ -31,13 +31,12 @@
                 <table id="example2" class="table table-bordered table-hover">
                   <thead>
                   <tr>
-                    <th>Nomor</th>
-                    <th>Nama Pesanan</th>
+                    <th>Nomor Pesan</th>
+                    <th>Nama Pemesan</th>
                     <th>Alamat Pesanan</th>
-                    <th>Nomor Telepon</th>
-                    <th>Paket</th>
-                    <th>Jenis Sepatu</th>
+                    <th>Pilhan Paket</th>
                     <th>Tanggal Pesan</th>
+                    <th>Harga Paket</th>
                     <th>Status</th>
                     <th>Aksi</th>
                   </tr>
@@ -45,12 +44,11 @@
                   <tbody>
                   <tr>
                     <td>1</td>
-                    <td>Denskie</td>
-                    <td>JL.K.H Wahid Hasyim NO.48</td>
-                    <td>085725221479</td>
-                    <td>Fast Cleaning</td>
-                    <td>Canvas</td>
-                    <td>1 Januari 2025</td>
+                    <td>Deniar Angga Widianto</td>
+                    <td>Brebes City</td>
+                    <td>FAST CLEANING</td>
+                    <td>25 Maret 2025</td>
+                    <td>25.000</td>
                     <td>
                       <select class="form-control">
                         <option>Dalam pengerjaan</option>
@@ -62,27 +60,7 @@
                       <button class="btn btn-success"><i class="fas fa-check"></i></button>
                       <button class="btn btn-danger"><i class="fas fa-times"></i></button>
                     </td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>Grace</td>
-                    <td>JL.Imam Bonjol NO.47</td>
-                    <td>085725221111</td>
-                    <td>Deep Cleaning</td>
-                    <td>Canvas</td>
-                    <td>2 Februari 2025</td>
-                    <td>
-                      <select class="form-control">
-                        <option>Dalam pengerjaan</option>
-                        <option>Sedang dijemput</option>
-                        <option selected>Selesai</option>
-                      </select>
-                    </td>
-                    <td>
-                      <button class="btn btn-success"><i class="fas fa-check"></i></button>
-                      <button class="btn btn-danger"><i class="fas fa-times"></i></button>
-                    </td>
-                  </tr>
+                 
                   </tbody>
                 </table>
               </div>

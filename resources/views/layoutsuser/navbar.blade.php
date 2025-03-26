@@ -36,7 +36,7 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li>
-                                <a class="dropdown-item" href="">Lihat Profile</a>
+                                <a class="dropdown-item" href="{{ route('user.editprofil') }}">Lihat Profil</a>
                             </li>
                             <li>
                                 <form method="POST" action="{{ route('logout') }}">
