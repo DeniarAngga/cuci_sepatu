@@ -29,15 +29,19 @@
         }
 
         .left {
-            flex: 1;
+            flex: 1.2;
             display: flex;
             justify-content: center;
             align-items: center;
+            padding: 10px;
         }
 
         .left img {
-            max-width: 100%;
-            height: auto;
+            width: 100%;
+            height: 100%;
+            max-width: 450px;
+            border-radius: 10px;
+            object-fit: cover;
         }
 
         .right {
@@ -56,15 +60,15 @@
 
         .right input {
             width: 100%;
-            padding: 15px;
-            margin: 10px 0;
+            padding: 12px;
+            margin: 8px 0;
             border: 1px solid #ccc;
             border-radius: 5px;
             font-size: 1em;
         }
 
         .right button {
-            padding: 15px;
+            padding: 12px;
             background-color: #3E5666;
             color: white;
             border: none;
@@ -91,7 +95,7 @@
 
         .logo {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .logo h2 {
@@ -104,14 +108,37 @@
             color: #3E5666;
             margin-bottom: 10px;
         }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .left {
+                flex: none;
+                width: 100%;
+                padding: 0;
+            }
+
+            .left img {
+                max-width: 300px;
+                height: auto;
+            }
+
+            .right {
+                flex: none;
+                width: 100%;
+            }
+        }
     </style>
 </head>
 
 <body>
     <div class="container">
         <div class="left">
-            <img src="user/img/FOTO.jpg" alt="Three pairs of sneakers hanging by their laces" width="400"
-                height="400" />
+            <img src="user/img/tampilanhome.png" alt="Shoes Cleaning">
         </div>
         <div class="right">
             <form action="{{ route('register') }}" method="POST">

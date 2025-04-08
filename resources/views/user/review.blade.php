@@ -123,24 +123,44 @@
         <div class="card shadow p-4">
             <h4 class="text-center mb-4">Bagikan pengalaman Anda!</h4>
 
+            <!-- Pesan Sukses -->
+            @if (session('success'))
+                <div class="alert alert-success" id="success-message">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            <!-- Pesan Peringatan Jika Belum Login -->
+            @if (session('warning'))
+                <div class="alert alert-warning transition-opacity duration-500 ease-out" id="warning-message">
+                    {{ session('warning') }}
+                </div>
+            @endif
+
             <form action="{{ route('user.kirimreview') }}" method="POST">
                 @csrf
 
                 <!-- Nama -->
                 <div class="mb-3">
                     <label for="nama" class="form-label">Nama</label>
-                    <input type="text" class="form-control" id="nama" name="nama" required>
+                    <input type="text" class="form-control" id="nama" name="nama"
+                        value="{{ optional(Auth::user())->name }}" @if (Auth::check()) readonly @endif>
                 </div>
 
                 <!-- Rating -->
                 <div class="mb-3 text-center">
                     <label class="form-label">Rating</label>
                     <div class="star-rating">
-                        <input type="radio" id="star5" name="rating" value="5"><label for="star5"><i class="fas fa-star"></i></label>
-                        <input type="radio" id="star4" name="rating" value="4"><label for="star4"><i class="fas fa-star"></i></label>
-                        <input type="radio" id="star3" name="rating" value="3"><label for="star3"><i class="fas fa-star"></i></label>
-                        <input type="radio" id="star2" name="rating" value="2"><label for="star2"><i class="fas fa-star"></i></label>
-                        <input type="radio" id="star1" name="rating" value="1" required><label for="star1"><i class="fas fa-star"></i></label>
+                        <input type="radio" id="star5" name="rating" value="5"><label for="star5"><i
+                                class="fas fa-star"></i></label>
+                        <input type="radio" id="star4" name="rating" value="4"><label for="star4"><i
+                                class="fas fa-star"></i></label>
+                        <input type="radio" id="star3" name="rating" value="3"><label for="star3"><i
+                                class="fas fa-star"></i></label>
+                        <input type="radio" id="star2" name="rating" value="2"><label for="star2"><i
+                                class="fas fa-star"></i></label>
+                        <input type="radio" id="star1" name="rating" value="1" required><label
+                            for="star1"><i class="fas fa-star"></i></label>
                     </div>
                 </div>
 
@@ -155,6 +175,23 @@
             </form>
         </div>
     </div>
+
+    <!-- Script untuk menyembunyikan pesan otomatis -->
+    <script>
+        setTimeout(function() {
+            let successMessage = document.getElementById("success-message");
+            if (successMessage) {
+                successMessage.style.opacity = "0";
+                setTimeout(() => successMessage.remove(), 500);
+            }
+
+            let warningMessage = document.getElementById("warning-message");
+            if (warningMessage) {
+                warningMessage.style.opacity = "0";
+                setTimeout(() => warningMessage.remove(), 500);
+            }
+        }, 3000);
+    </script>
 
     @include('layoutsuser.footer')
 

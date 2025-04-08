@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\DataPaketController;
 use App\Http\Controllers\Admin\DataPelangganController;
 use App\Http\Controllers\Admin\DataPesananController;
 use App\Http\Controllers\Admin\JenisSepatuController;
+use App\Http\Controllers\Admin\LoginAdminController;
 use App\Http\Controllers\Admin\MetodePembayaranController;
 use App\Http\Controllers\Admin\ProfiladminController;
 use App\Http\Controllers\Admin\ReviewPelangganController;
@@ -45,6 +46,7 @@ use Illuminate\Support\Facades\Route;
 // KHUSUS USER ATAU CUSTOMER
 Route::get('/', [HomeController::class, 'index'])->name('welcome');
 Route::get('/profil', [EditprofilController::class, 'index'])->name('user.editprofil');
+Route::put('/profile/update', [EditprofilController::class, 'update'])->name('profile.user.update');
 
 // User login
 Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
@@ -84,17 +86,23 @@ Route::get('/pickupservices', [PickupServicesController::class, 'index'])->name(
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+// Route::middleware('auth')->group(function () {
+//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// });
+
+// LOGIN ADMIN
+Route::get('/admin/login', [LoginAdminController::class, 'index'])->name('admin.login');
+Route::post('/admin/login', [LoginAdminController::class, 'login'])->name('login.admin');
+Route::post('/admin/logout', [LoginAdminController::class, 'logout'])->name('admin.logout');
 
 // KHUSUS ADMIN
 Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 Route::get('/admin/transaksi', [TransaksiController::class, 'index'])->name('admin.transaksi');
 Route::get('/admin/datapelanggan', [DataPelangganController::class, 'index'])->name('admin.datapelanggan');
 Route::get('/admin/review', [ReviewPelangganController::class, 'index'])->name('admin.review');
+Route::put('/admin/profile/update', [ProfiladminController::class, 'updateProfile'])->name('profile.admin.update');
 
 // Layanan
 Route::get('/admin/datapaket', [DataPaketController::class, 'index'])->name('admin.datapaket');

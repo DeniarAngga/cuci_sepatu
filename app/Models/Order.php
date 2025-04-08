@@ -23,4 +23,9 @@ class Order extends Model
         'status_pesanan',  // Tambahkan Status Pesanan
         'status_transaksi' // Tambahkan Status Transaksi
     ];
+
+    public function layanan()
+    {
+        return $this->belongsTo(Layanan::class, 'jenis_layanan', 'jenis_layanan');
+    }
 }

@@ -150,7 +150,7 @@
 <body>
     <div class="container">
         <div class="left">
-            <img src="user/img/FOTO.jpg" alt="Sneakers Hanging" width="400" height="400" />
+            <img src="user/img/tampilanhome.png" alt="Sneakers Hanging" width="400" height="400" />
         </div>
         <div class="right">
             <!-- Pesan Sukses -->

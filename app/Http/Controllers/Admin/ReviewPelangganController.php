@@ -8,11 +8,9 @@ use App\Models\Review;
 
 class ReviewPelangganController extends Controller
 {
-    public function index ()
+    public function index()
     {
         $reviews = Review::latest()->paginate(10);
         return view('admin.review', compact('reviews'));
     }
-
-    
 }

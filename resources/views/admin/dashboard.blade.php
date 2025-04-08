@@ -30,7 +30,6 @@
                         <div class="small-box bg-info">
                             <div class="inner">
                                 <h3>0</h3>
-
                                 <p>Data Transaksi</p>
                             </div>
                             <div class="icon">
@@ -45,8 +44,7 @@
                         <!-- small box -->
                         <div class="small-box bg-success">
                             <div class="inner">
-                                <h3>0</h3>
-
+                                <h3 class="text-white">{{ $totalDataPelanggan }}</h3>
                                 <p>Data Pelanggan</p>
                             </div>
                             <div class="icon">
@@ -63,13 +61,14 @@
                         <!-- small box -->
                         <div class="small-box bg-primary">
                             <div class="inner">
-                                <h3>0</h3>
+                                <h3 class="text-white">{{ $totalReview }}</h3>
                                 <p>Ratings dan Review</p>
                             </div>
                             <div class="icon">
                                 <i class="fas fa-star"></i>
                             </div>
-                            <a href="#" class="small-box-footer text-white" style="color: white !important;">
+                            <a href="{{ route('admin.review') }}" class="small-box-footer text-white"
+                                style="color: white !important;">
                                 More info <i class="fas fa-arrow-circle-right text-white"></i>
                             </a>
                         </div>
@@ -135,7 +134,7 @@
                         <div class="small-box bg-primary">
                             <div class="small-box bg-secondary">
                                 <div class="inner">
-                                    <h3>0</h3>
+                                    <h3 class="text-white">{{ $totalDataPesanan }}</h3>
                                     <p>Data Pesanan</p>
                                 </div>
                                 <div class="icon">
