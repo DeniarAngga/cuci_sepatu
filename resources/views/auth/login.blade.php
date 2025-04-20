@@ -2,12 +2,16 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login Page</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet" />
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             font-family: 'Roboto', sans-serif;
@@ -15,21 +19,28 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
+            padding: 10px;
         }
 
         .container {
             background-color: white;
-            width: 80%;
+            width: 100%;
             max-width: 900px;
             display: flex;
+            flex-wrap: wrap;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
+        .left,
+        .right {
+            flex: 1 1 300px;
+            padding: 20px;
+        }
+
         .left {
-            flex: 1;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -38,11 +49,10 @@
         .left img {
             max-width: 100%;
             height: auto;
+            border-radius: 10px;
         }
 
         .right {
-            flex: 1;
-            padding: 20px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -52,6 +62,7 @@
             font-size: 2em;
             color: #3E5666;
             margin-bottom: 20px;
+            text-align: center;
         }
 
         .right input {
@@ -121,27 +132,21 @@
             margin-bottom: 15px;
         }
 
-        @media (max-width: 768px) {
-            .container {
-                flex-direction: column;
-                align-items: center;
-                padding: 10px;
-            }
-
-            .left,
-            .right {
-                width: 100%;
-                padding: 10px;
-            }
-
+        @media (max-width: 480px) {
             .right h1 {
                 font-size: 1.5em;
             }
 
-            .right input,
-            .right button {
+            .left img {
+                max-width: 100%;
+            }
+
+            .container {
                 padding: 10px;
-                font-size: 0.9em;
+            }
+
+            .right button {
+                font-size: 0.95em;
             }
         }
     </style>
@@ -150,7 +155,7 @@
 <body>
     <div class="container">
         <div class="left">
-            <img src="user/img/tampilanhome.png" alt="Sneakers Hanging" width="400" height="400" />
+            <img src="user/img/login.jpeg" alt="Sneakers Hanging" />
         </div>
         <div class="right">
             <!-- Pesan Sukses -->

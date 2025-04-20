@@ -11,31 +11,28 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('pickup', function (Blueprint $table) {
             $table->id();
             $table->string('no_pesanan')->unique();
             $table->unsignedBigInteger('user_id');
+            $table->string('alamat');
+            $table->date('tanggal');
+            $table->string('waktu');
             $table->string('nama_lengkap');
+            $table->string('email');
             $table->string('nomor_handphone');
-            $table->text('alamat');
             $table->string('jenis_layanan');
             $table->string('jenis_sepatu');
-            $table->date('tanggal_pesan');
-            $table->integer('harga'); // ✅ Tambahkan kolom harga
-            $table->string('status_pesanan');
-            $table->string('status_transaksi');
+            $table->string('harga');
             $table->timestamps();
-
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
-        Schema::table('orders', function (Blueprint $table) {
-            $table->dropForeign(['user_id']);
-        });
-
-        Schema::dropIfExists('orders');
+        Schema::dropIfExists('pickup');
     }
 };

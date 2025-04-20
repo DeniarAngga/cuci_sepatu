@@ -5,28 +5,23 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Order extends Model
+class Pickup extends Model
 {
     use HasFactory;
 
-    protected $table = 'orders';
+    protected $table = 'pickup';
 
     protected $fillable = [
         'no_pesanan',
         'user_id',
-        'nama_lengkap',
-        'nomor_handphone',
         'alamat',
+        'tanggal',
+        'waktu',
+        'nama_lengkap',
+        'email',
+        'nomor_handphone',
         'jenis_layanan',
         'jenis_sepatu',
         'harga',
-        'tanggal_pesan',
-        'status_pesanan',  // Tambahkan Status Pesanan
-        'status_transaksi' // Tambahkan Status Transaksi
     ];
-
-    public function layanan()
-    {
-        return $this->belongsTo(Layanan::class, 'jenis_layanan', 'jenis_layanan');
-    }
 }

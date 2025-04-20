@@ -66,8 +66,14 @@ Route::post('/order', [OrderController::class, 'store'])->name('user.order.store
 Route::post('/order/{id}/bayar', [OrderController::class, 'updatePaymentStatus'])->name('order.bayar');
 
 Route::get('/pesanan', [PesananController::class, 'index'])->name('user.pesanan');
+Route::get('/pesanan/get-metode', [PesananController::class, 'getMetodeByType']);
+Route::post('/pembayaran/{id}', [PesananController::class, 'bayar'])->name('bayar.pesanan');
+
 Route::get('/riwayat', [RiwayatController::class, 'index'])->name('user.riwayat');
+
+// ORDER PICKUP SERVICES
 Route::get('/orderpickup', [OrderPickupController::class, 'index'])->name('user.orderpickup');
+Route::post('/orderpickup', [OrderPickupController::class, 'store'])->name('orderpickup.store');
 
 Route::get('/review', [ReviewController::class, 'index'])->name('user.review');
 Route::post('/review', [ReviewController::class, 'store'])->name('user.kirimreview');
@@ -82,16 +88,6 @@ Route::get('/repaintbiasa', [RepaintbiasaController::class, 'index'])->name('use
 Route::get('/repaintkhusus', [RepaintkhususController::class, 'index'])->name('user.repaintkhusus');
 Route::get('/pickupservices', [PickupServicesController::class, 'index'])->name('user.pickupservices');
 
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
-
-// Route::middleware('auth')->group(function () {
-//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-// });
-
 // LOGIN ADMIN
 Route::get('/admin/login', [LoginAdminController::class, 'index'])->name('admin.login');
 Route::post('/admin/login', [LoginAdminController::class, 'login'])->name('login.admin');
@@ -99,7 +95,11 @@ Route::post('/admin/logout', [LoginAdminController::class, 'logout'])->name('adm
 
 // KHUSUS ADMIN
 Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+
 Route::get('/admin/transaksi', [TransaksiController::class, 'index'])->name('admin.transaksi');
+Route::post('/admintransaksi/{id}/approve', [TransaksiController::class, 'approve'])->name('transaksi.approve');
+Route::post('/admin/transaksi/{id}/delete', [TransaksiController::class, 'delete'])->name('transaksi.delete');
+
 Route::get('/admin/datapelanggan', [DataPelangganController::class, 'index'])->name('admin.datapelanggan');
 Route::get('/admin/review', [ReviewPelangganController::class, 'index'])->name('admin.review');
 Route::put('/admin/profile/update', [ProfiladminController::class, 'updateProfile'])->name('profile.admin.update');
@@ -116,8 +116,16 @@ Route::post('/admin/jenissepatu/tambah', [JenisSepatuController::class, 'tambah'
 Route::put('/admin/jenissepatu/update/{id}', [JenisSepatuController::class, 'update'])->name('jenissepatu.update');
 Route::delete('admin/jenissepatu/{id}', [JenisSepatuController::class, 'destroy'])->name('jenissepatu.destroy');
 
+// Metode Pembayaran
 Route::get('/admin/metodepembayaran', [MetodePembayaranController::class, 'index'])->name('admin.metodepembayaran');
+Route::post('/admin/metodepembayaran/tambah', [MetodePembayaranController::class, 'tambah'])->name('metodepembayaran.tambah');
+Route::put('/admin/metodepembayaran/update/{id}', [MetodePembayaranController::class, 'update'])->name('metodepembayaran.update');
+Route::delete('/admin/metodepembayaran/{id}', [MetodePembayaranController::class, 'destroy'])->name('metodepembayaran.destroy');
+
 Route::get('/admin/datapesanan', [DataPesananController::class, 'index'])->name('admin.datapesanan');
+Route::post('/admin/datapesanan/update-status/{id}', [DataPesananController::class, 'updateStatus'])->name('orders.updateStatus');
+Route::delete('/admin/datapesanan/delete/{id}', [DataPesananController::class, 'delete'])->name('orders.delete');
+
 Route::get('/admin/profiladmin', [ProfiladminController::class, 'index'])->name('admin.profiladmin');
 
 require __DIR__ . '/auth.php';

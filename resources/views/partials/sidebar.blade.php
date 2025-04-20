@@ -21,6 +21,15 @@
                 </a>
             </li>
 
+            <!-- Data Pesanan -->
+            <li class="nav-item">
+                <a href="{{ route('admin.datapesanan') }}"
+                    class="nav-link {{ request()->routeIs('admin.datapesanan') ? 'active' : '' }}">
+                    <i class="nav-icon fas fa-store"></i>
+                    <p>Data Pesanan</p>
+                </a>
+            </li>
+
             <!-- Pelanggan Treeview -->
             <li class="nav-item {{ request()->routeIs('admin.datapelanggan') ? 'menu-open' : '' }}">
                 <a href="#" class="nav-link {{ request()->routeIs('admin.datapelanggan') ? 'active' : '' }}">
@@ -79,16 +88,6 @@
                     <p>Metode Pembayaran</p>
                 </a>
             </li>
-
-            <!-- Data Pesanan -->
-            <li class="nav-item">
-                <a href="{{ route('admin.datapesanan') }}"
-                    class="nav-link {{ request()->routeIs('admin.datapesanan') ? 'active' : '' }}">
-                    <i class="nav-icon fas fa-store"></i>
-                    <p>Data Pesanan</p>
-                </a>
-            </li>
-
         </ul>
     </nav>
     <!-- /.sidebar-menu -->

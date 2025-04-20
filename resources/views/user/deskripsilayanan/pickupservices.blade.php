@@ -1,44 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Keterangan Layanan</title>
-    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" rel="stylesheet"/>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <style>
         body {
             font-family: Arial, sans-serif;
         }
+
         .container {
             max-width: 1200px;
             margin: auto;
         }
+
         .center-image {
             text-align: center;
             margin-bottom: 20px;
         }
+
         .center-image img {
             width: 300px;
         }
+
         .left-section {
             width: 100%;
         }
+
         h2 {
             font-size: 24px;
         }
+
         .bold {
             font-weight: bold;
         }
+
         .gallery {
             display: flex;
             justify-content: space-between;
             margin-top: 20px;
         }
+
         .gallery img {
-            width: 30%;
+            width: 10%;
             border-radius: 10px;
         }
+
         .features {
             display: flex;
             justify-content: space-between;
@@ -46,9 +57,11 @@
             text-align: center;
             margin: 40px;
         }
+
         .feature {
             width: 30%;
         }
+
         .icon-circle {
             width: 50px;
             height: 50px;
@@ -62,29 +75,43 @@
             margin: auto;
             margin-bottom: 40px;
         }
+
         .feature h4 {
-            font-size: 17px; /* Ukuran lebih kecil dari <p> */
+            font-size: 17px;
+            /* Ukuran lebih kecil dari <p> */
             font-weight: bold;
             margin-bottom: 5px;
         }
+
         .feature p {
-            font-size: 16px; /* Ukuran lebih besar dari <h4> */
+            font-size: 16px;
+            /* Ukuran lebih besar dari <h4> */
             color: #555;
         }
+
         .footer {
             background-color: #495057;
             color: white;
             padding: 40px 0;
         }
+
+        .footer {
+            background-color: #495057;
+            color: white;
+            padding: 40px 0;
+        }
+
         .footer a {
             color: white;
             text-decoration: none;
         }
+
         .footer a:hover {
             text-decoration: underline;
         }
     </style>
 </head>
+
 <body>
 
     @include('layoutsuser.navbar')
@@ -102,10 +129,10 @@
                         </li>
                         <li class="breadcrumb-item active" aria-current="page">PICK UP SERVICES</li>
                     </ol>
-                </nav>                
+                </nav>
             </div>
         </div>
-    </div>    
+    </div>
 
     <div class="center-image">
         <img src="user/img/pickupservice.png" alt="Diagram Sepatu">
@@ -122,23 +149,26 @@
                 <li>Jangan biarkan noda melekat terlalu lama dan merusak bahan dari sepatu kesayanganmu.</li>
                 <li>Jangan lupa untuk <b>Follow IG</b> kita untuk mendapatkan info promo-promo menarik untuk anda.</li>
             </ul>
-            
-    </div>
-    <div class="features">
-        <div class="feature">
-            <div class="icon-circle"><i class="fas fa-wallet"></i></div>
-            <h4>HARGA TERJANGKAU</h4>
-            <p>Semua layanan kami memiliki harga yang terjangkau baik untuk pelajar, mahasiswa maupun untuk pekerja.</p>
+
         </div>
-        <div class="feature">
-            <div class="icon-circle"><i class="fas fa-user"></i></div>
-            <h4>TEKNISI BERPENGALAMAN</h4>
-            <p>Tim kami yang sudah berpengalaman dapat dipercaya untuk menyelesaikan permasalahan pada sepatu anda.</p>
-        </div>
-        <div class="feature">
-            <div class="icon-circle"><i class="fas fa-home"></i></div>
-            <h4>ECO FRIENDLY</h4>
-            <p>Kami menggunakan bahan-bahan alami yang aman dan di khususkan untuk bahan sepatu anda.</p>
+        <div class="features">
+            <div class="feature">
+                <div class="icon-circle"><i class="fas fa-wallet"></i></div>
+                <h4>HARGA TERJANGKAU</h4>
+                <p>Semua layanan kami memiliki harga yang terjangkau baik untuk pelajar, mahasiswa maupun untuk pekerja.
+                </p>
+            </div>
+            <div class="feature">
+                <div class="icon-circle"><i class="fas fa-user"></i></div>
+                <h4>TEKNISI BERPENGALAMAN</h4>
+                <p>Tim kami yang sudah berpengalaman dapat dipercaya untuk menyelesaikan permasalahan pada sepatu anda.
+                </p>
+            </div>
+            <div class="feature">
+                <div class="icon-circle"><i class="fas fa-home"></i></div>
+                <h4>ECO FRIENDLY</h4>
+                <p>Kami menggunakan bahan-bahan alami yang aman dan di khususkan untuk bahan sepatu anda.</p>
+            </div>
         </div>
     </div>
 

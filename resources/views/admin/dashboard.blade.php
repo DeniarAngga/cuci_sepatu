@@ -29,7 +29,7 @@
                         <!-- small box -->
                         <div class="small-box bg-info">
                             <div class="inner">
-                                <h3>0</h3>
+                                <h3 class="text-white">{{ $totalDataTransaksi }}</h3>
                                 <p>Data Transaksi</p>
                             </div>
                             <div class="icon">
@@ -117,7 +117,7 @@
                         <!-- small box -->
                         <div class="small-box bg-pink">
                             <div class="inner">
-                                <h3>0</h3>
+                                <h3>{{ $totalDataMetodePembayaran }}</h3>
                                 <p>Metode Bayar</p>
                             </div>
                             <div class="icon">

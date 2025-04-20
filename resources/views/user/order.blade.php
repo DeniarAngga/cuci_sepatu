@@ -144,12 +144,10 @@
             <div class="mb-3">
                 <label class="block font-semibold mb-1">Jenis Sepatu</label>
                 <select name="jenis_sepatu" class="form-control" required>
-                    <option value="" disabled selected>Pilih jenis sepatu</option>
-                    <option value="Suede">Suede</option>
-                    <option value="Canvas">Canvas</option>
-                    <option value="Leather">Leather</option>
-                    <option value="Nubuck">Nubuck</option>
-                    <option value="Mesh">Mesh</option>
+                    <option value="" selected>Pilih jenis sepatu</option>
+                    @foreach ($jenisSepatu as $jenis)
+                        <option value="{{ $jenis->jenis_sepatu }}">{{ $jenis->jenis_sepatu }}</option>
+                    @endforeach
                 </select>
             </div>
 

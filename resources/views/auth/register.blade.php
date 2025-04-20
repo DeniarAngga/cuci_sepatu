@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +7,10 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet" />
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             font-family: 'Roboto', sans-serif;
@@ -15,38 +18,41 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
+            padding: 10px;
         }
 
         .container {
             background-color: white;
-            width: 80%;
-            max-width: 900px;
+            width: 100%;
+            max-width: 1000px;
             display: flex;
+            flex-wrap: wrap;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
+        .left,
+        .right {
+            flex: 1 1 400px;
+            padding: 10px;
+        }
+
         .left {
-            flex: 1.2;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 10px;
         }
 
         .left img {
             width: 100%;
-            height: 100%;
             max-width: 450px;
             border-radius: 10px;
             object-fit: cover;
         }
 
         .right {
-            flex: 1;
-            padding: 20px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -56,18 +62,32 @@
             font-size: 2em;
             color: #3E5666;
             margin-bottom: 20px;
+            text-align: center;
         }
 
-        .right input {
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-grid input,
+        .form-grid textarea {
             width: 100%;
-            padding: 12px;
-            margin: 8px 0;
+            padding: 12px 16px;
             border: 1px solid #ccc;
-            border-radius: 5px;
+            border-radius: 6px;
             font-size: 1em;
         }
 
+        textarea[name="alamat"],
+        input[name="password"],
+        input[name="password_confirmation"] {
+            grid-column: span 2;
+        }
+
         .right button {
+            width: 100%;
             padding: 12px;
             background-color: #3E5666;
             color: white;
@@ -75,6 +95,7 @@
             border-radius: 5px;
             font-size: 1em;
             cursor: pointer;
+            margin-top: 20px;
         }
 
         .right button:hover {
@@ -110,26 +131,26 @@
         }
 
         @media (max-width: 768px) {
-            .container {
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
+            .form-grid {
+                grid-template-columns: 1fr;
             }
+        }
 
-            .left {
-                flex: none;
-                width: 100%;
-                padding: 0;
+        @media (max-width: 480px) {
+            .right h1 {
+                font-size: 1.5em;
             }
 
             .left img {
-                max-width: 300px;
-                height: auto;
+                max-width: 100%;
             }
 
-            .right {
-                flex: none;
-                width: 100%;
+            .container {
+                padding: 10px;
+            }
+
+            .right button {
+                font-size: 0.95em;
             }
         }
     </style>
@@ -138,7 +159,7 @@
 <body>
     <div class="container">
         <div class="left">
-            <img src="user/img/tampilanhome.png" alt="Shoes Cleaning">
+            <img src="{{ asset('user/img/login.jpeg') }}" alt="Shoes Cleaning">
         </div>
         <div class="right">
             <form action="{{ route('register') }}" method="POST">
@@ -152,13 +173,17 @@
                     <h2>DENSHOES CLEANING</h2>
                 </div>
                 <h1>Register</h1>
-                <input name="name" placeholder="Nama Pemesan" type="text" required />
-                <input name="username" placeholder="Username" type="text" required />
-                <input name="email" placeholder="Email" type="email" required />
-                <input name="phone" placeholder="Nomor Handphone" type="text" required />
-                <input name="alamat" placeholder="Alamat Pemesan" type="text" required />
-                <input name="password" placeholder="Password" type="password" required />
-                <input name="password_confirmation" placeholder="Konfirmasi Password" type="password" required />
+
+                <div class="form-grid">
+                    <input name="name" placeholder="Nama Pemesan" type="text" required />
+                    <input name="username" placeholder="Username" type="text" required />
+                    <input name="email" placeholder="Email" type="email" required />
+                    <input name="phone" placeholder="Nomor Handphone" type="text" required />
+                    <textarea name="alamat" placeholder="Alamat Pemesan" type="text" required></textarea>
+                    <input name="password" placeholder="Password" type="password" required />
+                    <input name="password_confirmation" placeholder="Konfirmasi Password" type="password" required />
+                </div>
+
                 <button type="submit">Register</button>
                 <a href="{{ route('login') }}">Sudah punya akun? Login</a>
             </form>
@@ -175,5 +200,4 @@
         </div>
     </div>
 </body>
-
 </html>

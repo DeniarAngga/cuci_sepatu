@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\JenisSepatu;
 use Illuminate\Http\Request;
 use App\Models\Layanan;
 use App\Models\Order;
@@ -18,12 +19,10 @@ class OrderController extends Controller
 
     public function store(Request $request)
     {
-        // Cek apakah user sudah login
         if (!Auth::check()) {
             return redirect()->back()->with('warning', 'Silahkan login atau registrasi terlebih dahulu untuk melakukan pemesanan.');
         }
 
-        // Validasi data input
         $validated = $request->validate([
             'nama_lengkap' => 'required|string|max:100',
             'nomor_handphone' => 'required|string|max:15',
@@ -33,10 +32,11 @@ class OrderController extends Controller
             'tanggal_pesan' => 'required|date',
         ]);
 
-        // Buat nomor pesanan unik
+        $layanan = Layanan::where('jenis_layanan', $validated['jenis_layanan'])->first();
+        $harga = $layanan ? $layanan->harga : 0;
+
         $no_pesanan = 'ORD-' . strtoupper(substr(md5(uniqid()), 0, 8));
 
-        // Simpan data ke dalam tabel orders dengan status awal
         Order::create([
             'no_pesanan' => $no_pesanan,
             'user_id' => Auth::id(),
@@ -46,8 +46,9 @@ class OrderController extends Controller
             'jenis_layanan' => $validated['jenis_layanan'],
             'jenis_sepatu' => $validated['jenis_sepatu'],
             'tanggal_pesan' => $validated['tanggal_pesan'],
-            'status_pesanan' => 'Menunggu Pembayaran', // Status awal pesanan
-            'status_transaksi' => 'Belum Bayar', // Status awal transaksi
+            'harga' => $harga,
+            'status_pesanan' => 'Menunggu Pembayaran',
+            'status_transaksi' => 'Belum Bayar',
         ]);
 
         return redirect()->route('user.order')->with('success', "Pesanan berhasil dibuat! Silakan lakukan pembayaran.");
@@ -79,10 +80,14 @@ class OrderController extends Controller
         // Tentukan apakah input readonly berdasarkan source dan jenis layanan
         $readonly = ($source === 'pesan' && $jenisLayanan) ? true : false;
 
+        // Ambil daftar jenis sepatu dari database
+        $jenisSepatu = JenisSepatu::all();
+
         return view('user.order', [
             'user' => $user,
             'jenisLayanan' => $jenisLayanan,
-            'readonly' => $readonly
+            'readonly' => $readonly,
+            'jenisSepatu' => $jenisSepatu
         ]);
     }
 }

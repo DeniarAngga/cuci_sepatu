@@ -40,15 +40,14 @@
                                             <div class="mb-3">
                                                 <label class="form-label">Nama</label>
                                                 <input type="text" name="name" class="form-control"
-                                                    value="{{ old('name', session('admin')->name ?? '') }}">
+                                                    value="{{ old('name', $admin->name) }}">
                                             </div>
 
                                             <!-- Username -->
                                             <div class="mb-3">
                                                 <label class="form-label">Username</label>
                                                 <input type="text" name="username" class="form-control"
-                                                    value="{{ old('username', session('admin')->username ?? '') }}"
-                                                    readonly>
+                                                    value="{{ old('username', $admin->username) }}" readonly>
                                             </div>
 
                                             <!-- Password -->
@@ -65,8 +64,12 @@
 
                                             <!-- Tombol Simpan -->
                                             <div class="text-center">
-                                                <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-                                                <a href="{{ route('admin.dashboard') }}" class="btn btn-secondary">Batal</a>
+                                                <form method="POST" action="{{ url('admin/profil') }}">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                                                    <a href="{{ route('admin.dashboard') }}"
+                                                        class="btn btn-secondary">Batal</a>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
