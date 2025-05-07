@@ -51,9 +51,10 @@
         }
 
         .footer {
-            background-color: #495057;
+            background-color: #000000;
             color: white;
             padding: 40px 0;
+            font-size: 14px;
         }
 
         .footer a {
@@ -63,6 +64,14 @@
 
         .footer a:hover {
             text-decoration: underline;
+        }
+
+        .footer-logo {
+            width: 200px;
+            /* sebelumnya 100px */
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 15px;
         }
     </style>
 </head>

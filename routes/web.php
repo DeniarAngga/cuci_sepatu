@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\DataPaketController;
 use App\Http\Controllers\Admin\DataPelangganController;
 use App\Http\Controllers\Admin\DataPesananController;
 use App\Http\Controllers\Admin\JenisSepatuController;
+use App\Http\Controllers\Admin\LaporanPenjualanController;
 use App\Http\Controllers\Admin\LoginAdminController;
 use App\Http\Controllers\Admin\MetodePembayaranController;
 use App\Http\Controllers\Admin\ProfiladminController;
@@ -30,6 +31,7 @@ use App\Http\Controllers\User\OrderPickupController;
 use App\Http\Controllers\User\PesananController;
 use App\Http\Controllers\User\ReviewController;
 use App\Http\Controllers\User\RiwayatController;
+use App\Http\Controllers\User\VerifikasiEmailController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -51,6 +53,10 @@ Route::put('/profile/update', [EditprofilController::class, 'update'])->name('pr
 // User login
 Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
 Route::post('/login', [AuthenticatedSessionController::class, 'store']);
+
+// Verifikasi email
+Route::get('/verify-email', [VerifikasiEmailController::class, 'showVerifyPage'])->name('verify.email.page');
+Route::get('/verify-email/submit', [VerifikasiEmailController::class, 'verify'])->name('verify.email.submit');
 
 // Route untuk logout
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
@@ -103,6 +109,9 @@ Route::post('/admin/transaksi/{id}/delete', [TransaksiController::class, 'delete
 Route::get('/admin/datapelanggan', [DataPelangganController::class, 'index'])->name('admin.datapelanggan');
 Route::get('/admin/review', [ReviewPelangganController::class, 'index'])->name('admin.review');
 Route::put('/admin/profile/update', [ProfiladminController::class, 'updateProfile'])->name('profile.admin.update');
+
+Route::get('/admin/laporanpenjualan', [LaporanPenjualanController::class, 'index'])->name('admin.laporanpenjualan');
+Route::get('/admin/laporan-penjualan/pdf', [LaporanPenjualanController::class, 'cetakPDF'])->name('laporan.penjualan.pdf');
 
 // Layanan
 Route::get('/admin/datapaket', [DataPaketController::class, 'index'])->name('admin.datapaket');

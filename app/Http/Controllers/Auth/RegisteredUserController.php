@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\VerifyEmail;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -10,6 +11,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -40,7 +42,7 @@ class RegisteredUserController extends Controller
         ]);
 
         // Simpan data ke database
-        User::create([
+        $user = User::create([
             'name' => $request->name,
             'username' => $request->username,
             'email' => $request->email,
@@ -49,7 +51,12 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        // Redirect ke halaman login dengan pesan sukses
-        return redirect()->route('login')->with('success', 'Registrasi berhasil, silakan login.');
+        $user->save();
+
+        // Kirim email verifikasi
+        Mail::to($user->email)->send(new VerifyEmail($user));
+
+        // Redirect ke halaman login
+        return redirect()->route('login')->with('success', 'Registrasi berhasil, silakan cek email untuk verifikasi.');
     }
 }

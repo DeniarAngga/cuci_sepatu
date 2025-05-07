@@ -16,8 +16,39 @@
             font-family: 'Arial', sans-serif;
         }
 
-        .navbar-nav .nav-link {
-            color: #6c757d;
+        .custom-navbar {
+            background-color: #ffffff !important;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1030;
+        }
+
+        .custom-navbar .navbar-brand img {
+            max-height: 70px;
+            transition: none !important;
+            filter: none !important;
+        }
+
+        .custom-navbar .nav-link,
+        .custom-navbar .navbar-brand,
+        .custom-navbar .dropdown-toggle {
+            color: #000 !important;
+            transition: color 0.3s ease;
+        }
+
+        .custom-navbar.scrolled .nav-link,
+        .custom-navbar.scrolled .navbar-brand {
+            color: #000 !important;
+        }
+
+        .custom-navbar.scrolled .navbar-logo {
+            filter: none !important;
+        }
+
+        /* Logo putih diubah jadi hitam */
+        .custom-navbar .navbar-brand .navbar-logo {
+            filter: invert(100%) brightness(0%) !important;
         }
 
         .hero-section {
@@ -58,9 +89,10 @@
         }
 
         .footer {
-            background-color: #495057;
+            background-color: #000000;
             color: white;
             padding: 40px 0;
+            font-size: 14px;
         }
 
         .footer a {
@@ -70,6 +102,44 @@
 
         .footer a:hover {
             text-decoration: underline;
+        }
+
+        .footer-logo {
+            width: 200px;
+            /* sebelumnya 100px */
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .transition-opacity {
+            transition: opacity 0.5s ease-out;
+        }
+
+        .opacity-0 {
+            opacity: 0;
+        }
+
+        /* Style tombol login (default - border putih) */
+        .custom-navbar .nav-item .nav-link[href*="login"] {
+            background-color: #dc3545;
+            /* Merah */
+            color: #fff !important;
+            padding: 6px 16px;
+            border-radius: 10px;
+            border: 1px solid black;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        /* Hover effect */
+        .custom-navbar .nav-item .nav-link[href*="login"]:hover {
+            background-color: #c82333;
+            color: #fff !important;
+        }
+
+        /* Saat navbar discroll - ubah border jadi hitam */
+        .custom-navbar.scrolled .nav-item .nav-link[href*="login"] {
+            border: 1px solid black;
         }
 
         .transition-opacity {

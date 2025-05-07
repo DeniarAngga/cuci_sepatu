@@ -1,45 +1,29 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light custom-navbar">
     <div class="container">
         <a class="navbar-brand" href="#">
-            <strong>DENSHOES CLEANING</strong>
+            <img src="{{ asset('user/img/logo2.png') }}" alt="DENSHOES CLEANING" height="80" width="80"
+                class="navbar-logo">
         </a>
-        <button aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
-            data-bs-target="#navbarNav" data-bs-toggle="collapse" type="button">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('welcome') }}">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('user.order') }}">Order</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('user.layanan') }}">Layanan</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('user.pesanan') }}">Pesanan</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('user.riwayat') }}">Riwayat</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('user.review') }}">Review</a>
-                </li>
-
+                <li class="nav-item"><a class="nav-link" href="{{ route('welcome') }}">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('user.order') }}">Order</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('user.layanan') }}">Layanan</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('user.pesanan') }}">Pesanan</a></li>
+                {{-- <li class="nav-item"><a class="nav-link" href="{{ route('user.riwayat') }}">Riwayat</a></li> --}}
+                <li class="nav-item"><a class="nav-link" href="{{ route('user.review') }}">Review</a></li>
                 @auth
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
                             {{ Auth::user()->name }}
                         </a>
-                        {{-- <a class="nav-link dropdown-toggle" href="" id="profileDropdown" role="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        </a> --}}
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <div class="dropdown-menu">
                             <a class="dropdown-item" href="{{ route('user.editprofil') }}">Lihat Profil</a>
-
                             <form action="{{ route('logout') }}" method="POST" class="d-inline">
                                 @csrf
                                 <button type="submit" class="dropdown-item text-danger">Logout</button>
@@ -47,9 +31,7 @@
                         </div>
                     </li>
                 @else
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('login') }}">Login</a>
-                    </li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
                 @endauth
             </ul>
         </div>

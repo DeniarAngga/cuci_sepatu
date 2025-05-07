@@ -30,6 +30,15 @@
                 </a>
             </li>
 
+            <!-- Laporan Penjualan -->
+            <li class="nav-item">
+                <a href="{{ route('admin.laporanpenjualan') }}"
+                    class="nav-link {{ request()->routeIs('admin.laporanpenjualan') ? 'active' : '' }}">
+                    <i class="nav-icon fas fa-print"></i>
+                    <p>Laporan Penjualan</p>
+                </a>
+            </li>
+
             <!-- Pelanggan Treeview -->
             <li class="nav-item {{ request()->routeIs('admin.datapelanggan') ? 'menu-open' : '' }}">
                 <a href="#" class="nav-link {{ request()->routeIs('admin.datapelanggan') ? 'active' : '' }}">

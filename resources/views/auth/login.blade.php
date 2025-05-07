@@ -116,20 +116,30 @@
             margin-bottom: 10px;
         }
 
-        .alert-success {
-            color: green;
-            background-color: #d4edda;
+        .alert-success,
+        .alert-error {
             padding: 10px;
             border-radius: 5px;
             margin-bottom: 15px;
+            border: 1px solid;
+            opacity: 1;
+            transition: opacity 0.5s ease-out;
+        }
+
+        .alert-success {
+            color: green;
+            background-color: #d4edda;
+            border-color: #c3e6cb;
         }
 
         .alert-error {
             color: red;
             background-color: #f8d7da;
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 15px;
+            border-color: #f5c6cb;
+        }
+
+        .fade-out {
+            opacity: 0;
         }
 
         @media (max-width: 480px) {
@@ -158,17 +168,28 @@
             <img src="user/img/login.jpeg" alt="Sneakers Hanging" />
         </div>
         <div class="right">
-            <!-- Pesan Sukses -->
+            {{-- Pesan Sukses --}}
             @if (session('success'))
-                <div class="alert-success">
+                <div class="alert-success" id="alert-success">
                     {{ session('success') }}
                 </div>
             @endif
 
-            <!-- Pesan Error -->
+            {{-- Pesan Error --}}
             @if (session('error'))
-                <div class="alert-error">
+                <div class="alert-error" id="alert-error">
                     {{ session('error') }}
+                </div>
+            @endif
+
+            {{-- Validasi Form --}}
+            @if ($errors->any())
+                <div class="alert-error" id="alert-validation">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
                 </div>
             @endif
 
@@ -183,23 +204,27 @@
                     <h2>DENSHOES CLEANING</h2>
                 </div>
                 <h1>Login</h1>
-                <input name="email" placeholder="Masukan email" type="email" required />
+                <input name="email" placeholder="Masukkan email" type="email" required />
                 <input name="password" placeholder="Password" type="password" required />
                 <button type="submit">Login</button>
                 <a href="{{ route('register') }}">Belum punya akun? Registrasi akun</a>
             </form>
-
-            @if ($errors->any())
-                <div class="alert-error">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
         </div>
     </div>
+
+    <script>
+        // Auto-hide alerts after 3 seconds
+        setTimeout(() => {
+            const alerts = ['alert-success', 'alert-error', 'alert-validation'];
+            alerts.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.classList.add('fade-out');
+                    setTimeout(() => el.style.display = 'none', 500); // remove from layout after fade
+                }
+            });
+        }, 3000);
+    </script>
 </body>
 
 </html>

@@ -22,17 +22,28 @@ class LoginController extends Controller
             'password' => 'required',
         ]);
 
-        // Coba melakukan login
+        // Lakukan autentikasi terlebih dahulu
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            // Jika berhasil login, arahkan ke dashboard
+            $user = Auth::user();
+
+            // Cek jika email belum diverifikasi
+            if (is_null($user->email_verified_at)) {
+                Auth::logout(); // Langsung logout
+                return back()->withErrors([
+                    'email' => 'Silakan verifikasi email Anda terlebih dahulu sebelum login.',
+                ])->withInput();
+            }
+
+            // Jika email sudah terverifikasi
             return redirect()->intended('/')->with('success', 'Berhasil login!');
         }
 
-        // Jika gagal, kembali ke halaman login dengan pesan error
+        // Jika gagal login
         return back()->withErrors([
             'email' => 'Email atau password salah.',
         ])->withInput();
     }
+
 
     // Logout pengguna
     public function logout()

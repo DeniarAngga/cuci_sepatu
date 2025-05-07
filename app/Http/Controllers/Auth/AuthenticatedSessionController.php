@@ -33,6 +33,17 @@ class AuthenticatedSessionController extends Controller
 
         // Coba melakukan login
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            // Ambil user yang berhasil login
+            $user = Auth::user();
+
+            // Cek apakah email belum diverifikasi
+            if (is_null($user->email_verified_at)) {
+                Auth::logout(); // Logout langsung
+                return back()->withErrors([
+                    'email' => 'Silakan verifikasi email Anda terlebih dahulu sebelum login.',
+                ])->withInput();
+            }
+
             // Regenerasi session untuk keamanan
             $request->session()->regenerate();
 
@@ -45,8 +56,6 @@ class AuthenticatedSessionController extends Controller
             'email' => 'Email atau password salah.',
         ])->withInput();
     }
-
-
 
     /**
      * Destroy an authenticated session.
