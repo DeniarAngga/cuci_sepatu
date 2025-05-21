@@ -40,7 +40,7 @@
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="" id="profileDropdown" role="button"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <img src="{{ asset('uploads/admin/' . (session('admin')->photo ?? 'FOTO.jpg')) }}"
+                <img src="{{ asset('uploads/admin/' . (session('admin')->photo ?? 'FOTO2.jpeg')) }}"
                     class="rounded-circle" width="30" height="30" alt="User Profile">
             </a>
             <div class="dropdown-menu" aria-labelledby="profileDropdown">

@@ -26,6 +26,7 @@ use App\Http\Controllers\User\Deskripsilayanan\PickupServicesController;
 use App\Http\Controllers\User\EditprofilController;
 use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\LayananController;
+use App\Http\Controllers\User\MidtransController;
 use App\Http\Controllers\User\OrderController;
 use App\Http\Controllers\User\OrderPickupController;
 use App\Http\Controllers\User\PesananController;
@@ -136,5 +137,8 @@ Route::post('/admin/datapesanan/update-status/{id}', [DataPesananController::cla
 Route::delete('/admin/datapesanan/delete/{id}', [DataPesananController::class, 'delete'])->name('orders.delete');
 
 Route::get('/admin/profiladmin', [ProfiladminController::class, 'index'])->name('admin.profiladmin');
+
+// Midtrans
+Route::post('/midtrans/callback', [MidtransController::class, 'handleCallback']);
 
 require __DIR__ . '/auth.php';

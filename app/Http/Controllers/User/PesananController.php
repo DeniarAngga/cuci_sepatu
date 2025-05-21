@@ -9,6 +9,8 @@ use App\Models\Layanan;
 use App\Models\Pembayaran;
 use App\Models\Transaksi;
 use Carbon\Carbon;
+use Midtrans\Snap;
+use Midtrans\Config;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,24 +18,64 @@ class PesananController extends Controller
 {
     public function index()
     {
-        // Ambil pesanan terbaru berdasarkan user yang sedang login
-        $pesananTerbaru = Order::where('user_id', Auth::id())->latest()->first();
+        // Ambil pesanan terbaru yang belum dibayar
+        $pesananTerbaru = Order::where('user_id', Auth::id())
+            ->where('status_transaksi', 'Belum Bayar')
+            ->latest()
+            ->first();
 
-        // Ambil semua pesanan untuk ditampilkan di halaman
+        // Ambil semua pesanan untuk user
         $pesanan = Order::where('user_id', Auth::id())
             ->leftJoin('layanan', 'orders.jenis_layanan', '=', 'layanan.jenis_layanan')
             ->select('orders.*', 'layanan.jenis_layanan as nama_layanan')
             ->get();
 
-        // Menghitung total harga semua pesanan
+        // Hitung total bayar
         $totalBayar = $pesanan->sum('harga');
 
-
-        // Ambil semua metode pembayaran
+        // Ambil metode pembayaran
         $metodePembayaran = Pembayaran::all();
 
-        // Kirim variabel ke view
-        return view('user.pesanan', compact('pesanan', 'metodePembayaran', 'pesananTerbaru', 'totalBayar'));
+        $snapToken = null;
+
+        // Generate Snap Token jika ada pesanan terbaru
+        if ($pesananTerbaru && $totalBayar > 0) {
+            // Konfigurasi Midtrans
+            Config::$serverKey = config('midtrans.serverKey');
+            Config::$isProduction = config('midtrans.isProduction');
+            Config::$isSanitized = true;
+            Config::$is3ds = true;
+
+            // Buat item_details dari daftar pesanan
+            $itemDetails = [];
+
+            foreach ($pesanan as $item) {
+                $itemDetails[] = [
+                    'id' => $item->id,
+                    'price' => (int) $item->harga,
+                    'quantity' => 1,
+                    'name' => $item->jenis_layanan ?? 'Layanan', // fallback jika null
+                ];
+            }
+
+            // Parameter untuk Midtrans Snap
+            $params = [
+                'transaction_details' => [
+                    'order_id' => $pesananTerbaru->id,
+                    'gross_amount' => (int) $totalBayar,
+                ],
+                'item_details' => $itemDetails,
+                'customer_details' => [
+                    'first_name' => Auth::user()->name,
+                    'email' => Auth::user()->email,
+                ],
+            ];
+
+            // Dapatkan Snap Token
+            $snapToken = Snap::getSnapToken($params);
+        }
+
+        return view('user.pesanan', compact('pesanan', 'metodePembayaran', 'pesananTerbaru', 'totalBayar', 'snapToken'));
     }
 
     public function getMetodeByType(Request $request)

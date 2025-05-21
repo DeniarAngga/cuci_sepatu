@@ -42,7 +42,7 @@
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="#" class="brand-link">
-      <span class="brand-text font-weight-light">DENSHOES CLEANING</span>
+      <span class="brand-text font-weight-light">CUCIKICKS CLEANING</span>
     </a>
 
     <!-- Sidebar -->
@@ -54,7 +54,7 @@
 @yield('container')
   <!-- /.content-wrapper -->
   <footer class="main-footer">
-    <strong>Copyright &copy; 2025 Deniar Angga W.</strong>
+    <strong>Copyright &copy; 2025 Syah Putra Indra Pratama.</strong>
     All rights reserved.
     <div class="float-right d-none d-sm-inline-block">
     </div>

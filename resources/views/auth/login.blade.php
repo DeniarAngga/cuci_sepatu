@@ -52,6 +52,11 @@
             border-radius: 10px;
         }
 
+        /* Perubahan warna putih ke hitam */
+        .invert-logo {
+            filter: invert(1) grayscale(1);
+        }
+
         .right {
             display: flex;
             flex-direction: column;
@@ -165,7 +170,7 @@
 <body>
     <div class="container">
         <div class="left">
-            <img src="user/img/login.jpeg" alt="Sneakers Hanging" />
+            <img src="user/img/logo2.png" alt="Sneakers Hanging" class="invert-logo" />
         </div>
         <div class="right">
             {{-- Pesan Sukses --}}
@@ -201,7 +206,7 @@
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
                     </div>
-                    <h2>DENSHOES CLEANING</h2>
+                    <h2>CUCIKICKS CLEANING</h2>
                 </div>
                 <h1>Login</h1>
                 <input name="email" placeholder="Masukkan email" type="email" required />
@@ -220,7 +225,7 @@
                 const el = document.getElementById(id);
                 if (el) {
                     el.classList.add('fade-out');
-                    setTimeout(() => el.style.display = 'none', 500); // remove from layout after fade
+                    setTimeout(() => el.style.display = 'none', 500);
                 }
             });
         }, 3000);

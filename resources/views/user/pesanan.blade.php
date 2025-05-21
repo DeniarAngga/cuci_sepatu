@@ -142,6 +142,10 @@
             border: 1px solid black;
         }
     </style>
+
+    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.clientKey') }}">
+    </script>
+
 </head>
 
 <body>
@@ -213,7 +217,13 @@
                             <td class="text-secondary">{{ $item->status_pesanan }}</td>
                             {{-- <td class="text-secondary">{{ $item->status_transaksi }}</td> --}}
                             <td>
-                                @if ($item->status_transaksi === 'Lunas')
+                                @if ($pesananTerbaru && $pesananTerbaru->status_transaksi === 'Belum Bayar' && $snapToken)
+                                    <button id="pay-button" type="button" class="btn btn-danger">Bayar
+                                        Sekarang</button>
+                                @elseif ($pesananTerbaru && $pesananTerbaru->status_transaksi === 'Lunas')
+                                    <button class="btn btn-success" disabled>Lunas</button>
+                                @endif
+                                {{-- @if ($item->status_transaksi === 'Lunas')
                                     <button class="btn btn-success" disabled>Lunas</button>
                                 @elseif ($item->status_transaksi === 'Menunggu Konfirmasi')
                                     <button class="btn btn-warning" disabled>Menunggu Konfirmasi</button>
@@ -224,7 +234,7 @@
                                         data-harga="{{ $item->harga }}" onclick="openBayarModal(this)">
                                         Bayar Sekarang
                                     </button>
-                                @endif
+                                @endif --}}
                             </td>
                         </tr>
                     @endforeach
@@ -409,6 +419,26 @@
 
             // Set form action
             document.querySelector('#formPembayaranModal form').action = '/pembayaran/' + id;
+        }
+    </script>
+
+    <script type="text/javascript">
+        var payButton = document.getElementById('pay-button');
+        if (payButton) {
+            payButton.addEventListener('click', function() {
+                window.snap.pay('{{ $snapToken }}', {
+                    onSuccess: function(result) {
+                        alert("Pembayaran berhasil!");
+                        window.location.reload();
+                    },
+                    onPending: function(result) {
+                        alert("Menunggu pembayaran...");
+                    },
+                    onError: function(result) {
+                        alert("Pembayaran gagal!");
+                    }
+                });
+            });
         }
     </script>
 
