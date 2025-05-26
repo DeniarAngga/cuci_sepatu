@@ -3,7 +3,7 @@
         <div class="row align-items-center">
             <!-- Gambar di sisi kiri -->
             <div class="col-md-3 text-center mb-4 mb-md-0">
-                <img src="{{ asset('user/img/logo2.png') }}" alt="Denshoes Logo" class="footer-logo">
+                <img src="{{ asset('user/img/logo3.png') }}" alt="Denshoes Logo" class="footer-logo">
             </div>
 
             <!-- ABOUT US -->

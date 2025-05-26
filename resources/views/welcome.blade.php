@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>
-        CUCIKICKS
+        DENSHOES
     </title>
     <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" rel="stylesheet" />
@@ -332,7 +332,7 @@
         <div class="row hero-overlay">
             <div class="col-md-12 text-center">
                 <h2 style="font-size: 36px; font-weight: bold;">Halo, Selamat datang di</h2>
-                <h2 style="font-size: 48px; font-weight: bold;">CUCIKICKS!</h2>
+                <h2 style="font-size: 48px; font-weight: bold;">DENSHOES CLEANING!</h2>
                 <p style="font-size: 24px;">
                     Kami menyediakan banyak layanan menarik untuk anda, klik tombol dibawah untuk info lebih lengkap
                 </p>
@@ -411,9 +411,9 @@
             </a>
         </div>
     </div>
-    <div class="container mt-1 mb-5 py-4" style="background-color: #ffc107; border-radius: 20px;">
+    {{-- <div class="container mt-1 mb-5 py-4" style="background-color: #ffc107; border-radius: 20px;">
         <h2 class="text-center fw-bold">Promo Layanan Kami</h2>
-        <p class="text-center">Promo layanan CUCIKICKS di bawah.</p>
+        <p class="text-center">Promo layanan DENSHOES di bawah.</p>
         <div class="row row-cols-1 row-cols-md-4 g-4">
             @foreach ([['img' => 'cuci.jpg'], ['img' => 'cuci.jpg'], ['img' => 'cuci.jpg'], ['img' => 'cuci.jpg'], ['img' => 'cuci.jpg'], ['img' => 'cuci.jpg'], ['img' => 'cuci.jpg'], ['img' => 'cuci.jpg']] as $store)
                 <div class="col">
@@ -425,7 +425,7 @@
                 </div>
             @endforeach
         </div>
-    </div>
+    </div> --}}
     <h2 class="text-center fw-bold">Galeri Kami</h2>
     <div class="marquee-gallery">
         <div class="marquee-track">
@@ -440,10 +440,10 @@
     <!-- Seksi Banner Bawah -->
     <section class="layanan-banner-section">
         <div class="layanan-banner">
-            <img src="{{ asset('user/img/cuci.jpg') }}" alt="Banner Layanan" class="banner-bg">
+            <img src="{{ asset('user/img/pickup.jpg') }}" alt="Banner Layanan" class="banner-bg">
             <div class="banner-overlay">
                 <h2 class="banner-title">Tidak sempat mengunjungi <br>toko kami?</h2>
-                <p class="banner-desc">Tenang, CUCIKICKS kini memiliki layanan antar jemput! Silakan hubungi kami
+                <p class="banner-desc">Tenang, DENSHOES kini memiliki layanan antar jemput! Silakan hubungi kami
                     sekarang juga.</p>
                 <a href="#layanan" class="banner-btn">Gunakan Layanan Sekarang</a>
             </div>

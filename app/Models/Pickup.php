@@ -15,13 +15,20 @@ class Pickup extends Model
         'no_pesanan',
         'user_id',
         'alamat',
-        'tanggal',
-        'waktu',
+        'tanggal_pesan',
         'nama_lengkap',
         'email',
         'nomor_handphone',
         'jenis_layanan',
+        'jumlah_item',
         'jenis_sepatu',
         'harga',
+        'status_pesanan',  // Tambahkan Status Pesanan
+        'status_transaksi' // Tambahkan Status Transaksi
     ];
+
+    public function layanan()
+    {
+        return $this->belongsTo(Layanan::class, 'jenis_layanan', 'jenis_layanan');
+    }
 }

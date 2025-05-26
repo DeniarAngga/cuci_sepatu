@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\Layanan;
 use App\Models\Pembayaran;
+use App\Models\Pickup;
 use App\Models\Transaksi;
 use Carbon\Carbon;
 use Midtrans\Snap;
@@ -19,15 +20,15 @@ class PesananController extends Controller
     public function index()
     {
         // Ambil pesanan terbaru yang belum dibayar
-        $pesananTerbaru = Order::where('user_id', Auth::id())
+        $pesananTerbaru = Pickup::where('user_id', Auth::id())
             ->where('status_transaksi', 'Belum Bayar')
             ->latest()
             ->first();
 
         // Ambil semua pesanan untuk user
-        $pesanan = Order::where('user_id', Auth::id())
-            ->leftJoin('layanan', 'orders.jenis_layanan', '=', 'layanan.jenis_layanan')
-            ->select('orders.*', 'layanan.jenis_layanan as nama_layanan')
+        $pesanan = Pickup::where('user_id', Auth::id())
+            ->leftJoin('layanan', 'pickup.jenis_layanan', '=', 'layanan.jenis_layanan')
+            ->select('pickup.*', 'layanan.jenis_layanan as nama_layanan')
             ->get();
 
         // Hitung total bayar
@@ -60,16 +61,16 @@ class PesananController extends Controller
 
             // Parameter untuk Midtrans Snap
             $params = [
-                'transaction_details' => [
-                    'order_id' => $pesananTerbaru->id,
-                    'gross_amount' => (int) $totalBayar,
-                ],
-                'item_details' => $itemDetails,
-                'customer_details' => [
-                    'first_name' => Auth::user()->name,
-                    'email' => Auth::user()->email,
-                ],
-            ];
+    'transaction_details' => [
+        'order_id' => 'pickup-' . $pesananTerbaru->id, // wajib dan harus unik
+        'gross_amount' => (int) $totalBayar,
+    ],
+    'item_details' => $itemDetails,
+    'customer_details' => [
+        'first_name' => Auth::user()->name,
+        'email' => Auth::user()->email,
+    ],
+];
 
             // Dapatkan Snap Token
             $snapToken = Snap::getSnapToken($params);

@@ -197,6 +197,7 @@
                         <th>Nama Pemesan</th>
                         <th>Alamat Pemesan</th>
                         <th>Pilihan Paket</th>
+                        <th>Jumlah Item</th>
                         <th>Tanggal Pesan</th>
                         <th>Harga Paket</th>
                         <th>Status Pesanan</th>
@@ -211,6 +212,7 @@
                             <td>{{ $item->nama_lengkap }}</td> {{-- Nama Pemesan dari tabel orders --}}
                             <td>{{ $item->alamat }}</td> {{-- Alamat dari tabel orders --}}
                             <td>{{ $item->jenis_layanan }}</td> {{-- Jenis Layanan dari tabel orders --}}
+                            <td>{{ $item->jumlah_item }}</td>
                             <td>{{ \Carbon\Carbon::parse($item->tanggal_pesan)->locale('id')->translatedFormat('d F Y') }}
                             </td> {{-- Format tanggal --}}
                             <td>Rp {{ number_format($item->harga, 0, ',', '.') }}</td> {{-- Harga dari tabel layanan --}}

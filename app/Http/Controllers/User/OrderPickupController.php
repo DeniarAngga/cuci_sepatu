@@ -36,6 +36,7 @@ class OrderPickupController extends Controller
             'email' => 'required|email',
             'nomor_handphone' => 'required|string',
             'jenis_layanan' => 'required|string',
+            'jumlah_item' => 'required|string',
             'jenis_sepatu' => 'required|string',
         ]);
 
@@ -60,7 +61,7 @@ class OrderPickupController extends Controller
         $no_pesanan = 'ORD-' . strtoupper(substr(md5(uniqid()), 0, 8));
 
         // Simpan pesanan
-        Order::create([
+        Pickup::create([
             'no_pesanan' => $no_pesanan,
             'user_id' => Auth::id(),
             'alamat' => $validated['alamat'],
@@ -70,6 +71,7 @@ class OrderPickupController extends Controller
             'email' => $validated['email'],
             'nomor_handphone' => $validated['nomor_handphone'],
             'jenis_layanan' => $validated['jenis_layanan'],
+            'jumlah_item' => $validated['jumlah_item'],
             'jenis_sepatu' => $validated['jenis_sepatu'],
             'harga' => $totalHarga,
             'status_pesanan' => 'Menunggu Pembayaran',

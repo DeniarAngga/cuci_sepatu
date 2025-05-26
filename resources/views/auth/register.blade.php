@@ -159,7 +159,7 @@
 <body>
     <div class="container">
         <div class="left">
-            <img src="{{ asset('user/img/login.jpeg') }}" alt="Shoes Cleaning">
+            <img src="{{ asset('user/img/logologinuser.png') }}" alt="Shoes Cleaning">
         </div>
         <div class="right">
             <form action="{{ route('register') }}" method="POST">

@@ -141,9 +141,14 @@
         <div class="left-section">
             <h2>DETAIL LAYANAN</h2>
             <ul>
-                <li>Layanan untuk pengambilan sepatu daerah <b>TEGAL.</b> </li>
-                <li>Layanan ini <b>GRATIS</b> </li>
+                <li>Layanan untuk pengambilan sepatu daerah tegal</li>
+                <li>Layanan ini GRATIS</li>
             </ul>
+            <p>Untuk mendapatkan layanan ini silahkan isi data diri dengan klik tombol dibawah</p>
+            <a href="{{ route('user.orderpickup') }}"
+            style="margin-bottom:12px; display: inline-block; background-color: #00bfff; color: white; padding: 15px 40px; border-radius: 50px; text-decoration: none; font-weight: bold;">
+            Pickup Service
+            </a>
             <h3>NOTE:</h3>
             <ul>
                 <li>Jangan biarkan noda melekat terlalu lama dan merusak bahan dari sepatu kesayanganmu.</li>

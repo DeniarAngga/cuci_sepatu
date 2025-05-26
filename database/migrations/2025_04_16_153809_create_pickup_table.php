@@ -16,14 +16,16 @@ return new class extends Migration
             $table->string('no_pesanan')->unique();
             $table->unsignedBigInteger('user_id');
             $table->string('alamat');
-            $table->date('tanggal');
-            $table->string('waktu');
+            $table->date('tanggal_pesan');
             $table->string('nama_lengkap');
             $table->string('email');
             $table->string('nomor_handphone');
             $table->string('jenis_layanan');
+            $table->string('jumlah_item');
             $table->string('jenis_sepatu');
             $table->string('harga');
+            $table->string('status_pesanan');
+            $table->string('status_transaksi');
             $table->timestamps();
         });
     }

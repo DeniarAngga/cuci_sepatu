@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-light custom-navbar">
     <div class="container">
         <a class="navbar-brand" href="#">
-            <img src="{{ asset('user/img/logo2.png') }}" alt="DENSHOES CLEANING" height="80" width="80"
+            <img src="{{ asset('user/img/logo3.png') }}" alt="DENSHOES CLEANING" height="80" width="80"
                 class="navbar-logo">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -12,7 +12,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item"><a class="nav-link" href="{{ route('welcome') }}">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ route('user.order') }}">Order</a></li>
+                {{-- <li class="nav-item"><a class="nav-link" href="{{ route('user.order') }}">Order</a></li> --}}
                 <li class="nav-item"><a class="nav-link" href="{{ route('user.layanan') }}">Layanan</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('user.pesanan') }}">Pesanan</a></li>
                 {{-- <li class="nav-item"><a class="nav-link" href="{{ route('user.riwayat') }}">Riwayat</a></li> --}}

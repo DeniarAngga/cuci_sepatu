@@ -170,7 +170,7 @@
 <body>
     <div class="container">
         <div class="left">
-            <img src="user/img/logo2.png" alt="Sneakers Hanging" class="invert-logo" />
+            <img src="user/img/logo3.png" alt="Sneakers Hanging" class="invert-logo" />
         </div>
         <div class="right">
             {{-- Pesan Sukses --}}
@@ -206,7 +206,7 @@
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
                     </div>
-                    <h2>CUCIKICKS CLEANING</h2>
+                    <h2>DENSHOES CLEANING</h2>
                 </div>
                 <h1>Login</h1>
                 <input name="email" placeholder="Masukkan email" type="email" required />

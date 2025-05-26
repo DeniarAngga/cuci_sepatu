@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\Pickup;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -11,7 +12,7 @@ class DataPesananController extends Controller
 {
     public function index()
     {
-        $orders = Order::with('layanan')->latest()->paginate(10);
+        $orders = Pickup::with('layanan')->latest()->paginate(10);
         return view('admin.datapesanan', compact('orders'));
     }
 

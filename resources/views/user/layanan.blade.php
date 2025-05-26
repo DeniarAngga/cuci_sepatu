@@ -213,9 +213,9 @@
                                 <a href="{{ $routeKeterangan }}" class="btn btn-primary w-100 mb-2">
                                     Keterangan Layanan
                                 </a>
-                                <a href="{{ $routePesan }}" class="btn btn-primary w-100">
+                                {{-- <a href="{{ $routePesan }}" class="btn btn-primary w-100">
                                     Pesan
-                                </a>
+                                </a> --}}
                             </div>
                         </div>
                     </div>
