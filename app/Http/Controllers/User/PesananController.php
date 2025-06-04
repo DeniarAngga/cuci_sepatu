@@ -19,65 +19,58 @@ class PesananController extends Controller
 {
     public function index()
     {
-        // Ambil pesanan terbaru yang belum dibayar
-        $pesananTerbaru = Pickup::where('user_id', Auth::id())
-            ->where('status_transaksi', 'Belum Bayar')
-            ->latest()
-            ->first();
+        // Ambil pickup model asli
+        $pesanan = Pickup::where('user_id', Auth::id())->get();
 
-        // Ambil semua pesanan untuk user
-        $pesanan = Pickup::where('user_id', Auth::id())
-            ->leftJoin('layanan', 'pickup.jenis_layanan', '=', 'layanan.jenis_layanan')
-            ->select('pickup.*', 'layanan.jenis_layanan as nama_layanan')
-            ->get();
-
-        // Hitung total bayar
-        $totalBayar = $pesanan->sum('harga');
-
-        // Ambil metode pembayaran
         $metodePembayaran = Pembayaran::all();
 
-        $snapToken = null;
+        // Midtrans config
+        Config::$serverKey = config('midtrans.serverKey');
+        Config::$isProduction = config('midtrans.isProduction');
+        Config::$isSanitized = true;
+        Config::$is3ds = true;
 
-        // Generate Snap Token jika ada pesanan terbaru
-        if ($pesananTerbaru && $totalBayar > 0) {
-            // Konfigurasi Midtrans
-            Config::$serverKey = config('midtrans.serverKey');
-            Config::$isProduction = config('midtrans.isProduction');
-            Config::$isSanitized = true;
-            Config::$is3ds = true;
+        $snapTokens = [];
 
-            // Buat item_details dari daftar pesanan
-            $itemDetails = [];
+        foreach ($pesanan as $item) {
+            if ($item->status_transaksi === 'Belum Bayar') {
+                if (!$item->midtrans_order_id) {
+                    $orderId = 'pickup-' . $item->id . '-' . time() . '-' . Str::random(5);
+                    $item->midtrans_order_id = $orderId;
+                    $item->save(); // ← penting! simpan perubahan
+                } else {
+                    $orderId = $item->midtrans_order_id;
+                }
 
-            foreach ($pesanan as $item) {
-                $itemDetails[] = [
-                    'id' => $item->id,
-                    'price' => (int) $item->harga,
-                    'quantity' => 1,
-                    'name' => $item->jenis_layanan ?? 'Layanan', // fallback jika null
+                $params = [
+                    'transaction_details' => [
+                        'order_id' => $orderId,
+                        'gross_amount' => (int) $item->total,
+                    ],
+                    'item_details' => [[
+                        'id' => $item->id,
+                        'price' => (int) $item->total,
+                        'quantity' => 1,
+                        'name' => $item->jenis_layanan ?? 'Layanan',
+                    ]],
+                    'customer_details' => [
+                        'first_name' => Auth::user()->name,
+                        'email' => Auth::user()->email,
+                    ],
+                    'callbacks' => [
+                        'finish' => route('user.pesanan'),
+                        'unfinish' => route('user.pesanan'),
+                        'error' => route('user.pesanan'),
+                    ],
                 ];
+
+                $snapTokens[$orderId] = Snap::getSnapToken($params);
             }
-
-            // Parameter untuk Midtrans Snap
-            $params = [
-    'transaction_details' => [
-        'order_id' => 'pickup-' . $pesananTerbaru->id, // wajib dan harus unik
-        'gross_amount' => (int) $totalBayar,
-    ],
-    'item_details' => $itemDetails,
-    'customer_details' => [
-        'first_name' => Auth::user()->name,
-        'email' => Auth::user()->email,
-    ],
-];
-
-            // Dapatkan Snap Token
-            $snapToken = Snap::getSnapToken($params);
         }
 
-        return view('user.pesanan', compact('pesanan', 'metodePembayaran', 'pesananTerbaru', 'totalBayar', 'snapToken'));
+        return view('user.pesanan', compact('pesanan', 'metodePembayaran', 'snapTokens'));
     }
+
 
     public function getMetodeByType(Request $request)
     {

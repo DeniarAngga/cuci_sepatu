@@ -3,23 +3,23 @@
     <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
-            <!-- Dashboard -->
+            <!-- Data Pesanan -->
             <li class="nav-item">
                 <a href="{{ route('admin.dashboard') }}"
                     class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                     <i class="nav-icon fas fa-tachometer-alt"></i>
-                    <p>Dashboard</p>
+                    <p>Dasbord</p>
                 </a>
             </li>
 
             <!-- Data Transaksi -->
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a href="{{ route('admin.transaksi') }}"
                     class="nav-link {{ request()->routeIs('admin.transaksi') ? 'active' : '' }}">
                     <i class="nav-icon fas fa-money-bill"></i>
                     <p>Data Transaksi</p>
                 </a>
-            </li>
+            </li> --}}
 
             <!-- Data Pesanan -->
             <li class="nav-item">
@@ -40,8 +40,9 @@
             </li>
 
             <!-- Pelanggan Treeview -->
-            <li class="nav-item {{ request()->routeIs('admin.datapelanggan') ? 'menu-open' : '' }}">
-                <a href="#" class="nav-link {{ request()->routeIs('admin.datapelanggan') ? 'active' : '' }}">
+            <li class="nav-item {{ request()->routeIs('admin.datapelanggan', 'admin.review') ? 'menu-open' : '' }}">
+                <a href="#"
+                    class="nav-link {{ request()->routeIs('admin.datapelanggan', 'admin.review') ? 'active' : '' }}">
                     <i class="nav-icon fas fa-users"></i>
                     <p>
                         Pelanggan
@@ -56,7 +57,8 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('admin.review') }}" class="nav-link">
+                        <a href="{{ route('admin.review') }}"
+                            class="nav-link {{ request()->routeIs('admin.review') ? 'active' : '' }}">
                             <p>Ratings dan Review</p>
                         </a>
                     </li>
@@ -90,13 +92,13 @@
             </li>
 
             <!-- Metode Pembayaran -->
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a href="{{ route('admin.metodepembayaran') }}"
                     class="nav-link {{ request()->routeIs('admin.metodepembayaran') ? 'active' : '' }}">
                     <i class="nav-icon fas fa-credit-card"></i>
                     <p>Metode Pembayaran</p>
                 </a>
-            </li>
+            </li> --}}
         </ul>
     </nav>
     <!-- /.sidebar-menu -->

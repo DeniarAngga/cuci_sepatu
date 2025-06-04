@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Order;
+use App\Models\Pickup;
 use Midtrans\Notification;
 
 class MidtransController extends Controller
@@ -39,5 +40,34 @@ class MidtransController extends Controller
         }
 
         return response()->json(['message' => 'Notification handled'], 200);
+    }
+
+    public function manualCallback(Request $request)
+    {
+        $orderId = $request->order_id;
+        $status = $request->transaction_status;
+
+        $pesanan = Pickup::where('midtrans_order_id', $orderId)->first();
+
+        if (!$pesanan) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Pesanan tidak ditemukan.'
+            ]);
+        }
+
+        if ($status === 'settlement') {
+            $pesanan->update([
+                'status_transaksi' => 'Lunas',
+                'status_pesanan' => 'Menunggu Konfirmasi',
+            ]);
+
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Transaksi belum settlement.'
+        ]);
     }
 }

@@ -19,10 +19,10 @@ class DataPesananController extends Controller
     public function updateStatus(Request $request, $id)
     {
         $request->validate([
-            'status_pesanan' => 'required|in:Dalam pengerjaan,Sedang dijemput,Selesai'
+            'status_pesanan' => 'required|in:Dikonfirmasi & Sedang Atur Penjemputan,Sedang dijemput,Dalam Pengerjaan,Selesai'
         ]);
 
-        $order = Order::findOrFail($id);
+        $order = Pickup::findOrFail($id);
         $order->status_pesanan = $request->status_pesanan;
         $order->save();
 
@@ -32,7 +32,7 @@ class DataPesananController extends Controller
 
     public function delete($id)
     {
-        $order = Order::findOrFail($id);
+        $order = Pickup::findOrFail($id);
         $order->delete();
 
         Alert::success('Dihapus', 'Pesanan berhasil dihapus.');

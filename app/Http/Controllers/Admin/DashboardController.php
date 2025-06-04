@@ -9,12 +9,13 @@ use App\Models\JenisSepatu;
 use App\Models\Layanan;
 use App\Models\Order;
 use App\Models\Pembayaran;
+use App\Models\Pickup;
 use App\Models\Review;
 use App\Models\Transaksi;
 use App\Models\User;
 
 class DashboardController extends Controller
-{
+{  
     public function index()
     {
         // Cek apakah admin sudah login
@@ -26,7 +27,7 @@ class DashboardController extends Controller
         $totalJenisSepatu = JenisSepatu::count();
         $totalReview = Review::count();
         $totalDataPelanggan = User::count();
-        $totalDataPesanan = Order::count();
+        $totalDataPesanan = Pickup::count();
         $totalDataTransaksi = Transaksi::count();
         $totalDataMetodePembayaran = Pembayaran::count();
 

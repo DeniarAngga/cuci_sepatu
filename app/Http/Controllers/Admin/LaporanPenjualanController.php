@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Order;
-use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\Pickup;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class LaporanPenjualanController extends Controller
@@ -15,7 +15,7 @@ class LaporanPenjualanController extends Controller
         $orders = new LengthAwarePaginator([], 0, 10); // default: kosong tapi tetap bisa paginate
 
         if ($request->filled('tanggal_mulai') && $request->filled('tanggal_selesai')) {
-            $orders = Order::whereBetween('tanggal_pesan', [
+            $orders = Pickup::whereBetween('tanggal_pesan', [
                 $request->tanggal_mulai,
                 $request->tanggal_selesai
             ])
@@ -24,7 +24,7 @@ class LaporanPenjualanController extends Controller
                 ->appends($request->all()); // mempertahankan query string
         }
 
-        return view('admin.laporanpenjualan', compact('orders'));
+        return view('admin.laporan_penjualan', compact('orders'));
     }
 
     public function cetakPDF(Request $request)
@@ -36,10 +36,20 @@ class LaporanPenjualanController extends Controller
         ]);
 
         // Ambil data berdasarkan filter tanggal
-        $orders = Order::whereBetween('tanggal_pesan', [
+        $orders = Pickup::whereBetween('tanggal_pesan', [
             $request->tanggal_mulai,
             $request->tanggal_selesai
         ])->orderBy('tanggal_pesan', 'desc')->get();
+
+        // Cek apakah ada order dengan status "Belum bayar"
+        $adaBelumBayar = $orders->contains(fn($order) => $order->status_transaksi === 'Belum bayar');
+
+        if ($adaBelumBayar) {
+            return response()->json([
+                'error' => true,
+                'message' => 'Tidak bisa cetak PDF karena masih ada pesanan dengan status "Belum bayar".'
+            ], 422);
+        }
 
         // Buat PDF
         $pdf = Pdf::loadView('admin.laporanpenjualan_pdf', compact('orders'));

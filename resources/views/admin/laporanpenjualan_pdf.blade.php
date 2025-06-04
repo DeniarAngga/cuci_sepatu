@@ -34,7 +34,7 @@
                 <th>Alamat</th>
                 <th>Layanan</th>
                 <th>Tanggal Pesan</th>
-                <th>Harga</th>
+                <th>Total Pesanan</th>
                 <th>Status</th>
             </tr>
         </thead>
@@ -46,8 +46,8 @@
                     <td>{{ $order->alamat }}</td>
                     <td>{{ $order->jenis_layanan }}</td>
                     <td>{{ \Carbon\Carbon::parse($order->tanggal_pesan)->format('d-m-Y') }}</td>
-                    <td>Rp {{ number_format($order->harga, 0, ',', '.') }}</td>
-                    <td>Selesai</td>
+                    <td>Rp {{ number_format($order->total, 0, ',', '.') }}</td>
+                    <td>{{ $order->status_transaksi }}</td>
                 </tr>
             @endforeach
         </tbody>

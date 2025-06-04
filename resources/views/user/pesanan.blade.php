@@ -9,6 +9,7 @@
     <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <style>
@@ -199,44 +200,63 @@
                         <th>Pilihan Paket</th>
                         <th>Jumlah Item</th>
                         <th>Tanggal Pesan</th>
-                        <th>Harga Paket</th>
+                        <th>Total Pesanan</th>
                         <th>Status Pesanan</th>
-                        {{-- <th>Status Transaksi</th> --}}
                         <th>Pembayaran</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($pesanan as $item)
+                    @foreach ($pesanan as $index => $item)
                         <tr>
                             <td>{{ $item->no_pesanan }}</td>
-                            <td>{{ $item->nama_lengkap }}</td> {{-- Nama Pemesan dari tabel orders --}}
-                            <td>{{ $item->alamat }}</td> {{-- Alamat dari tabel orders --}}
-                            <td>{{ $item->jenis_layanan }}</td> {{-- Jenis Layanan dari tabel orders --}}
+                            <td>{{ $item->nama_lengkap }}</td>
+                            <td>{{ $item->alamat }}</td>
+                            <td>{{ $item->jenis_layanan }}</td>
                             <td>{{ $item->jumlah_item }}</td>
                             <td>{{ \Carbon\Carbon::parse($item->tanggal_pesan)->locale('id')->translatedFormat('d F Y') }}
-                            </td> {{-- Format tanggal --}}
-                            <td>Rp {{ number_format($item->harga, 0, ',', '.') }}</td> {{-- Harga dari tabel layanan --}}
+                            </td>
+
+                            {{-- Kolom Total Pesanan dengan Toggle Icon --}}
+                            <td
+                                style="position: relative; cursor: pointer; user-select: none; white-space: nowrap; width: 150px;">
+                                <div style="display: inline-flex; align-items: center; gap: 4px;"
+                                    onclick="toggleDetail({{ $loop->index }})">
+                                    <span>Rp {{ number_format($item->total, 0, ',', '.') }}</span>
+                                    <i class="bi bi-caret-down-fill" id="iconArrow{{ $loop->index }}"
+                                        style="font-size: 1rem;"></i>
+                                </div>
+
+                                <div id="detail{{ $loop->index }}"
+                                    style="display: none; position: absolute; top: 100%; left: 0; z-index: 10; background: white; 
+                                            border: 1px solid #ddd; padding: 10px; width: 300px; box-shadow: 0 2px 5px rgba(0,0,0,0.15); 
+                                            font-size: 0.875rem; color: #333; border-radius: 4px;">
+                                    <ul class="list-unstyled mb-0">
+                                        <li><strong>Subtotal Pesanan:</strong> Rp
+                                            {{ number_format($item->subtotal_pesanan ?? 0, 0, ',', '.') }}</li>
+                                        <li><strong>Subtotal Pengiriman:</strong> Rp
+                                            {{ number_format($item->subtotal_pengiriman ?? 0, 0, ',', '.') }}</li>
+                                        <li><strong>Biaya Layanan:</strong> Rp
+                                            {{ number_format($item->biaya_layanan ?? 2000, 0, ',', '.') }}</li>
+                                        <hr>
+                                        <li><strong>Total:</strong> Rp {{ number_format($item->total, 0, ',', '.') }}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+
                             <td class="text-secondary">{{ $item->status_pesanan }}</td>
-                            {{-- <td class="text-secondary">{{ $item->status_transaksi }}</td> --}}
+
                             <td>
-                                @if ($pesananTerbaru && $pesananTerbaru->status_transaksi === 'Belum Bayar' && $snapToken)
-                                    <button id="pay-button" type="button" class="btn btn-danger">Bayar
-                                        Sekarang</button>
-                                @elseif ($pesananTerbaru && $pesananTerbaru->status_transaksi === 'Lunas')
+                                @if ($item->status_transaksi === 'Belum Bayar' && isset($snapTokens[$item->midtrans_order_id]))
+                                    <button class="btn btn-danger pay-button"
+                                        data-order-id="{{ $item->midtrans_order_id }}"
+                                        data-snap-token="{{ $snapTokens[$item->midtrans_order_id] }}"
+                                        id="pay-button-{{ $item->id }}">
+                                        Bayar
+                                    </button>
+                                @elseif ($item->status_transaksi === 'Lunas')
                                     <button class="btn btn-success" disabled>Lunas</button>
                                 @endif
-                                {{-- @if ($item->status_transaksi === 'Lunas')
-                                    <button class="btn btn-success" disabled>Lunas</button>
-                                @elseif ($item->status_transaksi === 'Menunggu Konfirmasi')
-                                    <button class="btn btn-warning" disabled>Menunggu Konfirmasi</button>
-                                @else
-                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                        data-bs-target="#formPembayaranModal" data-id="{{ $item->id }}"
-                                        data-no="{{ $item->no_pesanan }}" data-layanan="{{ $item->jenis_layanan }}"
-                                        data-harga="{{ $item->harga }}" onclick="openBayarModal(this)">
-                                        Bayar Sekarang
-                                    </button>
-                                @endif --}}
                             </td>
                         </tr>
                     @endforeach
@@ -246,7 +266,7 @@
     </div>
 
     <!-- Modal Form Pembayaran -->
-    <div class="modal fade" id="formPembayaranModal" tabindex="-1" aria-labelledby="formPembayaranLabel"
+    {{-- <div class="modal fade" id="formPembayaranModal" tabindex="-1" aria-labelledby="formPembayaranLabel"
         aria-hidden="true">
         <div class="modal-dialog">
             <form method="POST" enctype="multipart/form-data">
@@ -289,7 +309,8 @@
                         <!-- Pilihan Bank / E-Wallet -->
                         <div class="mb-3" id="metodeOptions" style="display: none;">
                             <label for="metode_id" class="form-label">Pilih Bank / E-Wallet</label>
-                            <select class="form-select" id="metode_id" name="metode_id" onchange="updateMetodeInfo()">
+                            <select class="form-select" id="metode_id" name="metode_id"
+                                onchange="updateMetodeInfo()">
                                 <option value="" selected>Pilih Bank / E-Wallet</option>
                             </select>
                         </div>
@@ -316,9 +337,48 @@
                 </div>
             </form>
         </div>
-    </div>
+    </div> --}}
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.clientKey') }}">
+    </script>
+
+    <script>
+        function toggleDetail(index) {
+            const detail = document.getElementById(`detail${index}`);
+            const icon = document.getElementById(`iconArrow${index}`);
+
+            if (detail.style.display === "none" || detail.style.display === "") {
+                detail.style.display = "block";
+                icon.classList.remove("bi-caret-down-fill");
+                icon.classList.add("bi-caret-up-fill");
+            } else {
+                detail.style.display = "none";
+                icon.classList.remove("bi-caret-up-fill");
+                icon.classList.add("bi-caret-down-fill");
+            }
+        }
+    </script>
+
+    @push('scripts')
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const items = @json($pesanan);
+                items.forEach((_, i) => {
+                    const collapseEl = document.getElementById(`rincian${i}`);
+                    const iconEl = document.getElementById(`iconArrow${i}`);
+                    collapseEl.addEventListener('show.bs.collapse', () => {
+                        iconEl.classList.remove('bi-caret-down-fill');
+                        iconEl.classList.add('bi-caret-up-fill');
+                    });
+                    collapseEl.addEventListener('hide.bs.collapse', () => {
+                        iconEl.classList.remove('bi-caret-up-fill');
+                        iconEl.classList.add('bi-caret-down-fill');
+                    });
+                });
+            });
+        </script>
+    @endpush
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -424,25 +484,60 @@
         }
     </script>
 
-    <script type="text/javascript">
-        var payButton = document.getElementById('pay-button');
-        if (payButton) {
-            payButton.addEventListener('click', function() {
-                window.snap.pay('{{ $snapToken }}', {
-                    onSuccess: function(result) {
-                        alert("Pembayaran berhasil!");
-                        window.location.reload();
-                    },
-                    onPending: function(result) {
-                        alert("Menunggu pembayaran...");
-                    },
-                    onError: function(result) {
-                        alert("Pembayaran gagal!");
-                    }
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.pay-button').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    const snapToken = this.getAttribute('data-snap-token');
+                    const orderId = this.getAttribute('data-order-id');
+                    const buttonEl = this;
+
+                    snap.pay(snapToken, {
+                        onSuccess: function(result) {
+                            fetch("{{ route('midtrans.callback.manual') }}", {
+                                    method: "POST",
+                                    headers: {
+                                        "Content-Type": "application/json",
+                                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                                    },
+                                    body: JSON.stringify({
+                                        order_id: orderId,
+                                        transaction_status: result
+                                            .transaction_status
+                                    })
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.success) {
+                                        buttonEl.classList.remove('btn-danger');
+                                        buttonEl.classList.add('btn-success');
+                                        buttonEl.innerText = 'Lunas';
+                                        buttonEl.disabled = true;
+                                        alert('Pembayaran berhasil!');
+                                    } else {
+                                        alert('Pembayaran berhasil, tapi gagal update status: ' +
+                                            data.message);
+                                    }
+                                });
+                        },
+                        onPending: function() {
+                            alert("Menunggu pembayaran.");
+                        },
+                        onError: function() {
+                            alert("Pembayaran gagal.");
+                        },
+                        onClose: function() {
+                            alert(
+                                "Kamu menutup popup sebelum menyelesaikan pembayaran.");
+                        }
+                    });
                 });
             });
-        }
+        });
     </script>
+
+
+
 
 
 

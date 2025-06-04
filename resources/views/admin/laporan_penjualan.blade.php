@@ -1,4 +1,4 @@
-﻿@extends('layouts.adminlte')
+@extends('layouts.adminlte')
 
 @section('container')
     <div class="content-wrapper">
@@ -10,7 +10,7 @@
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('admin.laporanpenjualan') }}">Home</a></li>
                             <li class="breadcrumb-item active">Laporan Penjualan</li>
                         </ol>
                     </div>
@@ -27,7 +27,7 @@
                         <h3 class="card-title">Filter Tanggal</h3>
                     </div>
                     <div class="card-body">
-                        <form action="" method="GET" class="row">
+                        <form action="" method="GET" class="row" id="filterForm">
                             <div class="col-md-5">
                                 <label for="tanggal_mulai">Dari Tanggal:</label>
                                 <input type="date" name="tanggal_mulai" id="tanggal_mulai" class="form-control"
@@ -45,6 +45,11 @@
                     </div>
                 </div>
 
+                {{-- Cek ada "Belum bayar" --}}
+                @php
+                    $adaBelumBayar = $orders->contains(fn($order) => $order->status_transaksi === 'Belum bayar');
+                @endphp
+
                 {{-- Card Laporan Penjualan --}}
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
@@ -53,16 +58,10 @@
                     <div class="card-body">
 
                         {{-- Tombol Cetak --}}
-                        <div class="mb-3">
-                            <div class="mb-3">
-                                <button id="cetakPdfBtn" class="btn btn-success me-2">
-                                    <i class="fas fa-file-pdf"></i> Cetak PDF
-                                </button>
-                                {{-- <button onclick="window.print()" class="btn btn-primary">
-                                    <i class="fas fa-print"></i> Print
-                                </button> --}}
-                            </div>
-                        </div>
+                        <button id="cetakPdfBtn" class="btn btn-success me-2 mb-3" {{ $adaBelumBayar ? 'disabled' : '' }}
+                            title="{{ $adaBelumBayar ? 'Tidak bisa cetak PDF karena ada pesanan yang belum bayar' : 'Cetak laporan penjualan dalam format PDF' }}">
+                            <i class="fas fa-file-pdf"></i> Cetak PDF
+                        </button>
 
                         <table class="table table-bordered table-hover">
                             <thead>
@@ -72,7 +71,7 @@
                                     <th>Alamat Pesanan</th>
                                     <th>Pilihan Paket</th>
                                     <th>Tanggal Pesan</th>
-                                    <th>Harga Paket</th>
+                                    <th>Total Harga</th>
                                     <th>Status</th>
                                 </tr>
                             </thead>
@@ -85,8 +84,16 @@
                                         <td>{{ $order->jenis_layanan }}</td>
                                         <td>{{ \Carbon\Carbon::parse($order->tanggal_pesan)->locale('id')->translatedFormat('d F Y') }}
                                         </td>
-                                        <td>Rp {{ number_format($order->harga ?? 0, 0, ',', '.') }}</td>
-                                        <td>Selesai</td>
+                                        <td>Rp {{ number_format($order->total ?? 0, 0, ',', '.') }}</td>
+                                        <td>
+                                            @if ($order->status_transaksi === 'Belum bayar')
+                                                <span class="badge bg-danger">{{ $order->status_transaksi }}</span>
+                                            @elseif ($order->status_transaksi === 'Lunas')
+                                                <span class="badge bg-success">{{ $order->status_transaksi }}</span>
+                                            @else
+                                                <span class="badge bg-secondary">{{ $order->status_transaksi }}</span>
+                                            @endif
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -104,6 +111,7 @@
         </section>
     </div>
 
+    {{-- Modal PDF --}}
     <div id="pdfModal" class="modal fade" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -114,32 +122,84 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <!-- Tempat untuk menampilkan PDF -->
                     <iframe id="pdfIframe" src="" width="100%" height="600px"></iframe>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- JavaScript untuk menangani klik tombol Cetak PDF -->
+    {{-- JS --}}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- Bootstrap JS (Pastikan ini ada, dan setelah jQuery jika pakai jQuery) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
         $(document).ready(function() {
-            $('#cetakPdfBtn').click(function() {
-                var tanggalMulai = $('#tanggal_mulai').val();
-                var tanggalSelesai = $('#tanggal_selesai').val();
-
-                // Validasi input tanggal
-                if (!tanggalMulai || !tanggalSelesai) {
-                    alert("Harap masukkan tanggal mulai dan selesai.");
+            // Validasi tanggal saat submit filter
+            $('#filterForm').submit(function(e) {
+                const tanggalMulai = $('#tanggal_mulai').val();
+                const tanggalSelesai = $('#tanggal_selesai').val();
+    
+                if (tanggalMulai && tanggalSelesai && tanggalMulai > tanggalSelesai) {
+                    e.preventDefault();
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Tanggal tidak valid',
+                        text: 'Tanggal mulai tidak boleh lebih besar dari tanggal selesai.',
+                    });
+                }
+            });
+    
+            // Notifikasi sukses setelah filter ditampilkan (dari controller)
+            @if (session('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: '{{ session('success') }}',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+            @endif
+    
+            // Inisialisasi Bootstrap 5 modal instance
+            var pdfModal = new bootstrap.Modal(document.getElementById('pdfModal'));
+    
+            // Event klik tombol cetak PDF
+            $('#cetakPdfBtn').click(function(e) {
+                if ($(this).is(':disabled')) {
+                    e.preventDefault();
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Tidak bisa cetak PDF',
+                        text: 'Masih ada pesanan dengan status "Belum bayar". Silakan selesaikan terlebih dahulu.',
+                    });
                     return;
                 }
-
+    
+                var tanggalMulai = $('#tanggal_mulai').val();
+                var tanggalSelesai = $('#tanggal_selesai').val();
+    
+                if (!tanggalMulai || !tanggalSelesai) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Tanggal kosong',
+                        text: 'Harap masukkan tanggal mulai dan tanggal selesai.',
+                    });
+                    return;
+                }
+    
+                if (tanggalMulai > tanggalSelesai) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Tanggal tidak valid',
+                        text: 'Tanggal mulai tidak boleh lebih besar dari tanggal selesai.',
+                    });
+                    return;
+                }
+    
+                e.preventDefault(); // cegah default klik reload halaman
+    
+                // AJAX request untuk generate PDF
                 $.ajax({
                     url: '{{ route('laporan.penjualan.pdf') }}',
                     method: 'GET',
@@ -148,21 +208,31 @@
                         tanggal_selesai: tanggalSelesai
                     },
                     xhrFields: {
-                        responseType: 'blob' // <--- PENTING!
+                        responseType: 'blob'
                     },
                     success: function(response) {
-                        var blob = new Blob([response], {
-                            type: 'application/pdf'
-                        });
+                        var blob = new Blob([response], { type: 'application/pdf' });
                         var url = URL.createObjectURL(blob);
                         $('#pdfIframe').attr('src', url);
-                        $('#pdfModal').modal('show');
+                        pdfModal.show();
+    
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'PDF Berhasil Dibuka',
+                            text: 'File laporan PDF berhasil dimuat.',
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
                     },
                     error: function(xhr, status, error) {
-                        alert("Terjadi kesalahan saat memuat PDF: " + error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal Memuat PDF',
+                            text: error
+                        });
                     }
                 });
             });
         });
-    </script>
+    </script>    
 @endsection

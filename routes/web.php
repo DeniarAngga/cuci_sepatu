@@ -140,5 +140,7 @@ Route::get('/admin/profiladmin', [ProfiladminController::class, 'index'])->name(
 
 // Midtrans
 Route::post('/midtrans/callback', [MidtransController::class, 'handleCallback']);
+Route::post('/midtrans/callback/manual', [MidtransController::class, 'manualCallback'])->name('midtrans.callback.manual');
+
 
 require __DIR__ . '/auth.php';

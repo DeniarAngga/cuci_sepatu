@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('no_pesanan')->unique();
             $table->unsignedBigInteger('user_id');
+            $table->string('midtrans_order_id')->nullable();
             $table->string('alamat');
             $table->date('tanggal_pesan');
             $table->string('nama_lengkap');
@@ -23,7 +24,10 @@ return new class extends Migration
             $table->string('jenis_layanan');
             $table->string('jumlah_item');
             $table->string('jenis_sepatu');
-            $table->string('harga');
+            $table->integer('subtotal_pesanan');
+            $table->integer('subtotal_pengiriman');
+            $table->integer('biaya_layanan');
+            $table->integer('total');
             $table->string('status_pesanan');
             $table->string('status_transaksi');
             $table->timestamps();

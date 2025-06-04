@@ -22,9 +22,12 @@ class Pickup extends Model
         'jenis_layanan',
         'jumlah_item',
         'jenis_sepatu',
-        'harga',
-        'status_pesanan',  // Tambahkan Status Pesanan
-        'status_transaksi' // Tambahkan Status Transaksi
+        'subtotal_pesanan',      
+        'subtotal_pengiriman',    
+        'biaya_layanan',          
+        'total',
+        'status_pesanan',         // Opsional: bisa default "Menunggu Pickup"
+        'status_transaksi'        // Opsional: bisa default "Belum Bayar"
     ];
 
     public function layanan()
